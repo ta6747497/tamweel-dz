@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلب أصل خاص | تمويل دي زيد</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1A5F4E;
+            --primary-light: #2D8B6F;
+            --primary-dark: #0D3B2C;
+            --accent: #D4AF37;
+            --accent-light: #F0D97A;
+            --secondary: #8B4513;
+            --bg-light: #FAF9F6;
+            --bg-white: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-gray: #666666;
+            --border: #E5E5E5;
+            --shadow: rgba(26, 95, 78, 0.1);
+            --success: #2D8B6F;
+            --error: #C53030;
+            --font-display: 'Amiri', serif;
+            --font-body: 'Tajawal', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+        
+        .form-wrapper {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .form-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+        }
+        
+        .form-header h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+        
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem;
+            background: var(--bg-light);
+            position: relative;
+        }
+        
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 15%;
+            left: 15%;
+            height: 3px;
+            background: var(--border);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--border);
+            margin: 0 auto 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            transition: all 0.3s;
+        }
+        
+        .step.active .step-circle {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 0 0 4px rgba(26, 95, 78, 0.2);
+        }
+        
+        .step.completed .step-circle {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+        
+        .step.active .step-label {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        /* Form Content */
+        .form-content {
+            padding: 2.5rem;
+        }
+        
+        .form-step {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .form-step.active {
+            display: block;
+        }
+        
+        .step-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-description {
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .required {
+            color: var(--error);
+            margin-right: 3px;
+        }
+        
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            transition: all 0.3s;
+            background: var(--bg-light);
+        }
+        
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(26, 95, 78, 0.1);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        /* File Upload */
+        .file-upload-area {
+            border: 3px dashed var(--border);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            background: var(--bg-light);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .file-upload-area:hover {
+            border-color: var(--primary);
+            background: white;
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .uploaded-file {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 10px;
+            margin-top: 1rem;
+            border: 2px solid var(--success);
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .remove-file {
+            background: none;
+            border: none;
+            color: var(--error);
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .remove-file:hover {
+            transform: scale(1.2);
+        }
+        
+        /* Fee Box */
+        .fee-box {
+            background: var(--bg-light);
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .fee-box h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .fee-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .fee-item:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        /* Alert */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .alert-warning {
+            background: rgba(212, 175, 55, 0.15);
+            border: 2px solid var(--accent);
+            color: var(--secondary);
+        }
+        
+        .alert-success {
+            background: rgba(45, 139, 111, 0.15);
+            border: 2px solid var(--success);
+            color: var(--primary-dark);
+        }
+        
+        /* Buttons */
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 95, 78, 0.3);
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 95, 78, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Success Message */
+        .success-message {
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .success-message h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+        
+        .success-message p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .form-content {
+                padding: 1.5rem;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+    
+    <!-- Supabase Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <a href="dashboard-entrepreneur.html" class="back-link">
+            <span>←</span>
+            <span>العودة للوحة التحكم</span>
+        </a>
+
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h1>طلب أصل خاص</h1>
+                <p>نبحث لك عن الأصل الذي تحتاجه ونموله لك!</p>
+            </div>
+
+            <!-- Progress Steps -->
+            <div class="progress-steps">
+                <div class="step active" data-step="1">
+                    <div class="step-circle"><span>1</span></div>
+                    <div class="step-label">معلومات الأصل</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-circle"><span>2</span></div>
+                    <div class="step-label">دفع الرسوم</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-circle"><span>3</span></div>
+                    <div class="step-label">النشر</div>
+                </div>
+            </div>
+
+            <!-- Form Content -->
+            <div class="form-content">
+                <form id="customAssetForm">
+                    <!-- Step 1: Asset Info -->
+                    <div class="form-step active" data-step="1">
+                        <h2 class="step-title">معلومات الأصل المطلوب</h2>
+                        <p class="step-description">حدد الأصل الذي تحتاجه بدقة</p>
+
+                        <div class="alert alert-warning">
+                            <span style="font-size: 1.5rem;">💡</span>
+                            <div>
+                                <strong>ملاحظة:</strong> كلما كانت المعلومات أدق، كلما سهّلنا عليك إيجاد الأصل المناسب بأفضل سعر.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span class="required">*</span> اسم الأصل المطلوب</label>
+                            <input type="text" class="form-input" name="assetName" required placeholder="مثال: ماكينة تعبئة أوتوماتيكية">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span class="required">*</span> القطاع</label>
+                            <select class="form-select" name="category" required>
+                                <option value="">اختر القطاع...</option>
+                                <option value="industry">الصناعة والمكننة</option>
+                                <option value="agriculture">الفلاحة والصناعات الغذائية</option>
+                                <option value="transport">النقل واللوجستيك</option>
+                                <option value="healthcare">الصحة والعيادات الطبية</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span class="required">*</span> المواصفات التقنية المطلوبة</label>
+                            <textarea class="form-textarea" name="specifications" required placeholder="مثال:
+- القدرة الإنتاجية: 5000 وحدة/يوم
+- الطاقة: 380V ثلاثي الطور
+- الأبعاد: 5m x 3m x 2m
+- الوزن: 2000 كغ
+- أي مواصفات أخرى مهمة..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span class="required">*</span> معلومات المورد المقترح (إن وُجد)</label>
+                            <input type="text" class="form-input" name="supplierName" placeholder="اسم المورد أو الشركة">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span class="required">*</span> نوع المورد</label>
+                            <select class="form-select" name="supplierType" required>
+                                <option value="">اختر...</option>
+                                <option value="local">محلي (جزائري)</option>
+                                <option value="international">دولي (استيراد)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label"><span class="required">*</span> السعر التقديري للأصل (دج)</label>
+                            <input type="number" class="form-input" name="estimatedPrice" required placeholder="3500000" min="100000">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">صور الأصل (إن وُجدت)</label>
+                            <div class="file-upload-area" onclick="document.getElementById('assetImages').click()">
+                                <div class="upload-icon">📸</div>
+                                <p>اضغط لرفع صور الأصل</p>
+                                <small>يمكنك رفع عدة صور - JPG, PNG - حتى 5 ميغابايت لكل صورة</small>
+                            </div>
+                            <input type="file" id="assetImages" class="file-input" accept="image/*" multiple onchange="handleImageUpload(this)">
+                            <div id="uploadedImages"></div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-primary" onclick="calculateFees()">التالي - حساب الرسوم ←</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Payment -->
+                    <div class="form-step" data-step="2">
+                        <h2 class="step-title">دفع رسوم الخدمة</h2>
+                        <p class="step-description">رسوم رمزية لتغطية تكاليف البحث والدراسة</p>
+
+                        <div class="fee-box">
+                            <h3>تفاصيل الرسوم</h3>
+                            <div class="fee-item">
+                                <span>قيمة الأصل المقدرة:</span>
+                                <span id="assetPrice">0 دج</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>رسوم الخدمة (ثابتة):</span>
+                                <span id="serviceFee">5,000 دج</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>عمولة الاستيراد (0.05%):</span>
+                                <span id="importCommission">0 دج</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>الإجمالي المطلوب الآن:</span>
+                                <span id="totalFee">5,000 دج</span>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <span style="font-size: 1.5rem;">⚠️</span>
+                            <div>
+                                <strong>تنبيه:</strong> رسوم الخدمة غير قابلة للاسترداد. أما عمولة الاستيراد فستُدفع عند اكتمال تمويل الأصل.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">طريقة الدفع</label>
+                            <select class="form-select" name="paymentMethod">
+                                <option value="CIB">بطاقة CIB</option>
+                                <option value="EDAHABIA">البطاقة الذهبية</option>
+                                <option value="manual">إدخال يدوي</option>
+                            </select>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep()">→ السابق</button>
+                            <button type="button" class="btn btn-primary" onclick="processPayment()">دفع الرسوم 💳</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Publish -->
+                    <div class="form-step" data-step="3">
+                        <h2 class="step-title">جاهز للنشر!</h2>
+                        <p class="step-description">طلبك جاهز، اضغط "نشر" ليظهر للمستثمرين</p>
+
+                        <div class="alert alert-success">
+                            <span style="font-size: 1.5rem;">✓</span>
+                            <div>
+                                <strong>تم الدفع بنجاح!</strong><br>
+                                رقم العملية: <strong>PAY-2026-XXXXX</strong>
+                            </div>
+                        </div>
+
+                        <div class="fee-box">
+                            <h3>ملخص الطلب</h3>
+                            <div class="fee-item">
+                                <span>الأصل:</span>
+                                <span id="summaryAssetName">-</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>القطاع:</span>
+                                <span id="summaryCategory">-</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>السعر المقدر:</span>
+                                <span id="summaryPrice">-</span>
+                            </div>
+                            <div class="fee-item">
+                                <span>نوع المورد:</span>
+                                <span id="summarySupplier">-</span>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <span style="font-size: 1.5rem;">📋</span>
+                            <div>
+                                بعد النشر، سيظهر طلبك في الصفحة الرئيسية بعلامة "أصل خاص" ويمكن للمستثمرين البدء في تمويله.
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="window.location.href='dashboard-entrepreneur.html'">إلغاء</button>
+                            <button type="button" class="btn btn-primary" onclick="publishRequest()">نشر الطلب 🚀</button>
+                        </div>
+                    </div>
+
+                    <!-- Success Step -->
+                    <div class="form-step" data-step="4">
+                        <div class="success-message">
+                            <div class="success-icon">🎉</div>
+                            <h2>تم نشر طلبك بنجاح!</h2>
+                            <p>
+                                رقم الطلب: <strong>DZ-SRC-2026-00001</strong><br><br>
+                                طلبك الآن منشور في الصفحة الرئيسية وسيبدأ المستثمرون في تمويله.<br>
+                                سنرسل لك إشعاراً عند اكتمال التمويل.
+                            </p>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">عرض في الصفحة الرئيسية</button>
+                                <button type="button" class="btn btn-primary" onclick="window.location.href='dashboard-entrepreneur.html'">العودة للوحة التحكم</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let uploadedImages = [];
+        let formData = {};
+
+        function handleImageUpload(input) {
+            const files = input.files;
+            const container = document.getElementById('uploadedImages');
+            
+            Array.from(files).forEach(file => {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`الملف ${file.name} كبير جداً! الحد الأقصى: 5 ميغابايت`);
+                    return;
+                }
+                
+                uploadedImages.push(file);
+                
+                const div = document.createElement('div');
+                div.className = 'uploaded-file';
+                div.innerHTML = `
+                    <div class="file-info">
+                        <span>📸</span>
+                        <span>${file.name} (${(file.size / 1024).toFixed(2)} KB)</span>
+                    </div>
+                    <button type="button" class="remove-file" onclick="removeImage('${file.name}')">×</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function removeImage(fileName) {
+            uploadedImages = uploadedImages.filter(f => f.name !== fileName);
+            document.getElementById('uploadedImages').innerHTML = '';
+            uploadedImages.forEach(file => {
+                const div = document.createElement('div');
+                div.className = 'uploaded-file';
+                div.innerHTML = `
+                    <div class="file-info">
+                        <span>📸</span>
+                        <span>${file.name}</span>
+                    </div>
+                    <button type="button" class="remove-file" onclick="removeImage('${file.name}')">×</button>
+                `;
+                document.getElementById('uploadedImages').appendChild(div);
+            });
+        }
+
+        function calculateFees() {
+            // Get form data
+            const form = document.getElementById('customAssetForm');
+            const formElements = form.elements;
+            
+            formData = {
+                assetName: formElements.assetName.value,
+                category: formElements.category.value,
+                specifications: formElements.specifications.value,
+                supplierName: formElements.supplierName.value,
+                supplierType: formElements.supplierType.value,
+                estimatedPrice: parseFloat(formElements.estimatedPrice.value)
+            };
+            
+            // Calculate fees
+            const serviceFee = 5000;
+            const importCommission = formData.estimatedPrice * 0.0005; // 0.05%
+            const totalFee = serviceFee + importCommission;
+            
+            // Update UI
+            document.getElementById('assetPrice').textContent = formData.estimatedPrice.toLocaleString('ar-DZ') + ' دج';
+            document.getElementById('serviceFee').textContent = serviceFee.toLocaleString('ar-DZ') + ' دج';
+            document.getElementById('importCommission').textContent = importCommission.toLocaleString('ar-DZ') + ' دج';
+            document.getElementById('totalFee').textContent = totalFee.toLocaleString('ar-DZ') + ' دج';
+            
+            nextStep();
+        }
+
+        function processPayment() {
+            // Simulate payment
+            const btn = event.target;
+            btn.textContent = 'جاري المعالجة...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                // Fill summary
+                const categoryNames = {
+                    'industry': 'الصناعة والمكننة',
+                    'agriculture': 'الفلاحة والصناعات الغذائية',
+                    'transport': 'النقل واللوجستيك',
+                    'healthcare': 'الصحة والعيادات الطبية'
+                };
+                
+                const supplierNames = {
+                    'local': 'محلي',
+                    'international': 'دولي (استيراد)'
+                };
+                
+                document.getElementById('summaryAssetName').textContent = formData.assetName;
+                document.getElementById('summaryCategory').textContent = categoryNames[formData.category];
+                document.getElementById('summaryPrice').textContent = formData.estimatedPrice.toLocaleString('ar-DZ') + ' دج';
+                document.getElementById('summarySupplier').textContent = supplierNames[formData.supplierType];
+                
+                nextStep();
+            }, 2000);
+        }
+
+        function publishRequest() {
+            const btn = event.target;
+            btn.textContent = 'جاري النشر...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                completeAllSteps();
+                nextStep();
+            }, 1500);
+        }
+
+        function nextStep() {
+            if (currentStep < 4) {
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+                
+                currentStep++;
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+                if (currentStep <= 3) {
+                    document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+                }
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
+                document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+                
+                currentStep--;
+                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.add('active');
+                document.querySelector(`.step[data-step="${currentStep-1}"]`).classList.remove('completed');
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function completeAllSteps() {
+            document.querySelectorAll('.step').forEach(step => step.classList.add('completed'));
+        }
+    </script>
+    <script src="js/request-custom-asset.js"></script>
+</body>
+</html>

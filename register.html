@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب | تمويل دي زيد</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1A5F4E;
+            --primary-light: #2D8B6F;
+            --primary-dark: #0D3B2C;
+            --accent: #D4AF37;
+            --accent-light: #F0D97A;
+            --secondary: #8B4513;
+            --bg-light: #FAF9F6;
+            --bg-white: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-gray: #666666;
+            --border: #E5E5E5;
+            --shadow: rgba(26, 95, 78, 0.1);
+            --font-display: 'Amiri', serif;
+            --font-body: 'Tajawal', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -15%;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .back-home:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+        
+        .account-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .account-card {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+            animation: scaleIn 0.6s ease-out;
+        }
+        
+        .account-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .account-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transition: all 0.4s;
+        }
+        
+        .account-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        }
+        
+        .account-card:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .card-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px var(--shadow);
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+        
+        .account-card:hover .card-icon {
+            transform: rotate(10deg) scale(1.1);
+            box-shadow: 0 15px 40px rgba(26, 95, 78, 0.3);
+        }
+        
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-description {
+            color: var(--text-gray);
+            text-align: center;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-features li {
+            padding: 0.8rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            color: var(--text-dark);
+            font-size: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .card-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .card-features .check {
+            color: var(--accent);
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        
+        .btn-select {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(26, 95, 78, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-select:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(26, 95, 78, 0.4);
+        }
+        
+        .btn-select:active {
+            transform: translateY(0);
+        }
+        
+        .login-link {
+            text-align: center;
+            color: white;
+            font-size: 1.1rem;
+            animation: fadeInUp 1s ease-out;
+            margin-top: 2rem;
+        }
+        
+        .login-link a {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+        }
+        
+        .login-link a:hover {
+            background: rgba(212, 175, 55, 0.2);
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .account-types {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .account-card {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-home">
+            <span>←</span>
+            <span>العودة للرئيسية</span>
+        </a>
+
+        <div class="header">
+            <h1>إنشاء حساب جديد</h1>
+            <p>اختر نوع الحساب المناسب لك</p>
+        </div>
+
+        <div class="account-types">
+            <!-- Investor Card -->
+            <div class="account-card" onclick="selectAccountType('investor')">
+                <div class="card-icon">💰</div>
+                <h2 class="card-title">حساب مستثمر</h2>
+                <p class="card-description">
+                    استثمر أموالك بطريقة حلال وآمنة واحصل على عوائد شهرية مستدامة
+                </p>
+                
+                <ul class="card-features">
+                    <li>
+                        <span class="check">✓</span>
+                        <span>استثمر في أصول ملموسة حقيقية</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>عوائد شهرية تصل إلى 30% سنوياً</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>حماية قانونية عبر عقود موثقة</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>شفافية كاملة في توزيع الأرباح</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>تأمين تكافلي لحماية استثماراتك</span>
+                    </li>
+                </ul>
+                
+                <button class="btn-select">
+                    المتابعة كمستثمر ←
+                </button>
+            </div>
+
+            <!-- Entrepreneur Card -->
+            <div class="account-card" onclick="selectAccountType('entrepreneur')">
+                <div class="card-icon">💼</div>
+                <h2 class="card-title">حساب رائد أعمال</h2>
+                <p class="card-description">
+                    احصل على المعدات والآلات التي تحتاجها لمشروعك دون دفع ثمنها كاملاً
+                </p>
+                
+                <ul class="card-features">
+                    <li>
+                        <span class="check">✓</span>
+                        <span>احصل على المعدات فوراً بدون دفعة أولى كبيرة</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>أقساط شهرية مريحة ومرنة</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>الملكية تنتقل إليك في نهاية المدة</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>إمكانية طلب أصول خاصة غير متوفرة</span>
+                    </li>
+                    <li>
+                        <span class="check">✓</span>
+                        <span>دعم قانوني وتقني مستمر</span>
+                    </li>
+                </ul>
+                
+                <button class="btn-select">
+                    المتابعة كرائد أعمال ←
+                </button>
+            </div>
+        </div>
+
+        <p class="login-link">
+            لديك حساب بالفعل؟ 
+            <a href="login.html">سجّل الدخول</a>
+        </p>
+    </div>
+
+    <script>
+        function selectAccountType(type) {
+            console.log('Selected account type:', type);
+            
+            // Store selection immediately
+            localStorage.setItem('accountType', type);
+            
+            // Redirect to registration form
+            window.location.href = `register-form.html?type=${type}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إتمام الدفع | تمويل دي زيد</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1A5F4E;
+            --primary-light: #2D8B6F;
+            --primary-dark: #0D3B2C;
+            --accent: #D4AF37;
+            --accent-light: #F0D97A;
+            --bg-light: #FAF9F6;
+            --bg-white: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-gray: #666666;
+            --border: #E5E5E5;
+            --shadow: rgba(26, 95, 78, 0.1);
+            --success: #2D8B6F;
+            --font-display: 'Amiri', serif;
+            --font-body: 'Tajawal', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+        
+        .payment-wrapper {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .payment-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+        }
+        
+        .payment-header h1 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .secure-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            margin-top: 1rem;
+        }
+        
+        .payment-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 2.5rem;
+        }
+        
+        .payment-methods {
+            
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .method-option {
+            background: var(--bg-light);
+            border: 3px solid var(--border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .method-option:hover {
+            border-color: var(--primary);
+            background: white;
+        }
+        
+        .method-option.active {
+            border-color: var(--accent);
+            background: white;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+        
+        .method-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .method-radio {
+            width: 24px;
+            height: 24px;
+            accent-color: var(--primary);
+        }
+        
+        .method-icon {
+            font-size: 2rem;
+        }
+        
+        .method-info h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+        
+        .method-info p {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+        
+        .method-details {
+            display: none;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed var(--border);
+        }
+        
+        .method-option.active .method-details {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(26, 95, 78, 0.1);
+        }
+        
+        .card-inputs {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+        }
+        
+        /* Order Summary */
+        .order-summary {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 15px;
+            height: fit-content;
+        }
+        
+        .summary-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-item.total {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--primary);
+            padding-top: 1.5rem;
+            margin-top: 1rem;
+            border-top: 2px solid var(--primary);
+        }
+        
+        .asset-preview {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .asset-preview-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 95, 78, 0.3);
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 95, 78, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .security-note {
+            background: rgba(45, 139, 111, 0.1);
+            border: 2px solid var(--success);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+        
+        .security-note p {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+        
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 25px;
+            padding: 3rem;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-content h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+        
+        .modal-content p {
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .transaction-id {
+            background: var(--bg-light);
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .payment-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    
+    <!-- Supabase Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <a href="asset-details.html" class="back-link">
+            <span>←</span>
+            <span>العودة</span>
+        </a>
+
+        <div class="payment-wrapper">
+            <div class="payment-header">
+                <h1>إتمام عملية الدفع</h1>
+                <p>اختر طريقة الدفع المناسبة</p>
+                <div class="secure-badge">
+                    <span>🔒</span>
+                    <span>دفع آمن ومشفر</span>
+                </div>
+            </div>
+
+            <div class="payment-content">
+                <!-- Payment Methods -->
+                <div class="payment-methods">
+                    <h2 class="section-title">طرق الدفع المتاحة</h2>
+
+                    <!-- CIB Card -->
+                    <div class="method-option active" onclick="selectMethod('cib')">
+                        <div class="method-header">
+                            <input type="radio" name="payment" class="method-radio" checked>
+                            <div class="method-icon">💳</div>
+                            <div class="method-info">
+                                <h3>بطاقة CIB</h3>
+                                <p>الدفع عبر بطاقتك البنكية CIB</p>
+                            </div>
+                        </div>
+                        <div class="method-details">
+                            <div class="form-group">
+                                <label class="form-label">رقم البطاقة</label>
+                                <input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">اسم حامل البطاقة</label>
+                                <input type="text" class="form-input" placeholder="AHMED BEN MOHAMED">
+                            </div>
+                            <div class="card-inputs">
+                                <div class="form-group">
+                                    <label class="form-label">تاريخ الانتهاء</label>
+                                    <input type="text" class="form-input" placeholder="MM/YY" maxlength="5">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">CVV</label>
+                                    <input type="text" class="form-input" placeholder="123" maxlength="3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Edahabia -->
+                    <div class="method-option" onclick="selectMethod('edahabia')">
+                        <div class="method-header">
+                            <input type="radio" name="payment" class="method-radio">
+                            <div class="method-icon">💰</div>
+                            <div class="method-info">
+                                <h3>البطاقة الذهبية (Edahabia)</h3>
+                                <p>الدفع عبر بطاقة بريد الجزائر</p>
+                            </div>
+                        </div>
+                        <div class="method-details">
+                            <div class="form-group">
+                                <label class="form-label">رقم البطاقة</label>
+                                <input type="text" class="form-input" placeholder="0079 9999 0012 3456">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">رمز PIN</label>
+                                <input type="password" class="form-input" placeholder="••••" maxlength="4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Manual Entry -->
+                    <div class="method-option" onclick="selectMethod('manual')">
+                        <div class="method-header">
+                            <input type="radio" name="payment" class="method-radio">
+                            <div class="method-icon">🏦</div>
+                            <div class="method-info">
+                                <h3>إدخال يدوي</h3>
+                                <p>إدخال معلومات الحساب البنكي</p>
+                            </div>
+                        </div>
+                        <div class="method-details">
+                            <div class="form-group">
+                                <label class="form-label">رقم الحساب (RIB)</label>
+                                <input type="text" class="form-input" placeholder="00799999001234567890" maxlength="20">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">اسم صاحب الحساب</label>
+                                <input type="text" class="form-input" placeholder="أحمد بن محمد">
+                            </div>
+                            <div class="security-note">
+                                <span>⚠️</span>
+                                <p>سيتم التحقق من الدفع خلال 24 ساعة. ستتلقى إشعاراً عند تأكيد العملية.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="security-note">
+                        <span>🔒</span>
+                        <p>
+                            جميع المعاملات المالية آمنة ومشفرة بالكامل. نحن لا نحتفظ بمعلومات بطاقتك البنكية.
+                            تتم المعالجة عبر بوابات الدفع الوطنية المعتمدة (SATIM وبريد الجزائر).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h3 class="summary-title">ملخص العملية</h3>
+                    
+                    <div class="asset-preview">
+                        <div class="asset-preview-title" id="assetName">ماكينة قطع بالليزر</div>
+                        <small style="color: var(--text-gray);">🏭 الصناعة والمكننة</small>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>المبلغ المستثمر:</span>
+                        <span id="investmentAmount">500,000 دج</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>حصتك:</span>
+                        <span id="sharePercentage">11.11%</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>رسوم المعاملة:</span>
+                        <span>0 دج</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>الإجمالي:</span>
+                        <span id="totalAmount">500,000 دج</span>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="processPayment()">
+                        تأكيد الدفع 💳
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="success-icon">✅</div>
+            <h2>تمت العملية بنجاح!</h2>
+            <p>تم تسجيل استثمارك بنجاح. سيتم تحويلك إلى لوحة التحكم.</p>
+            <div class="transaction-id">
+                رقم العملية: <strong>TRX-2026-001234</strong>
+            </div>
+            <button class="btn btn-primary" onclick="goToDashboard()">
+                الانتقال للوحة التحكم
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Load investment data
+        document.addEventListener('DOMContentLoaded', () => {
+            const investmentData = JSON.parse(localStorage.getItem('investmentData') || '{}');
+            if (investmentData.amount) {
+                const amount = parseFloat(investmentData.amount);
+                const totalPrice = 4500000;
+                const share = (amount / totalPrice * 100).toFixed(2);
+                
+                document.getElementById('assetName').textContent = investmentData.assetName || 'الأصل';
+                document.getElementById('investmentAmount').textContent = amount.toLocaleString('ar-DZ') + ' دج';
+                document.getElementById('sharePercentage').textContent = share + '%';
+                document.getElementById('totalAmount').textContent = amount.toLocaleString('ar-DZ') + ' دج';
+            }
+        });
+
+        function selectMethod(method) {
+            // Remove active from all
+            document.querySelectorAll('.method-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            // Add active to selected
+            event.currentTarget.classList.add('active');
+            
+            // Update radio
+            event.currentTarget.querySelector('input[type="radio"]').checked = true;
+        }
+
+        function processPayment() {
+            const btn = event.target;
+            btn.textContent = 'جاري المعالجة...';
+            btn.disabled = true;
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                document.getElementById('successModal').classList.add('active');
+            }, 2000);
+        }
+
+        function goToDashboard() {
+            // Clear investment data
+            localStorage.removeItem('investmentData');
+            // Redirect to dashboard
+            window.location.href = 'dashboard-investor.html';
+        }
+    </script>
+    <script src="js/payment.js"></script>
+</body>
+</html>

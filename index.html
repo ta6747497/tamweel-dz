@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تمويل دي زيد | منصة التمويل الإسلامي الجماعي</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Colors - Islamic/Moroccan inspired palette */
+            --primary: #1A5F4E;
+            --primary-light: #2D8B6F;
+            --primary-dark: #0D3B2C;
+            --accent: #D4AF37;
+            --accent-light: #F0D97A;
+            --secondary: #8B4513;
+            --bg-light: #FAF9F6;
+            --bg-white: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-gray: #666666;
+            --border: #E5E5E5;
+            --shadow: rgba(26, 95, 78, 0.1);
+            --success: #2D8B6F;
+            --warning: #D4AF37;
+            
+            /* Spacing */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2.5rem;
+            --space-xl: 4rem;
+            
+            /* Typography */
+            --font-display: 'Amiri', serif;
+            --font-body: 'Tajawal', sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: var(--space-md) 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
+        }
+        
+        .menu-toggle {
+            background: none;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            font-family: var(--font-body);
+        }
+        
+        .menu-toggle:hover {
+            background: var(--accent);
+            color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        /* Side Menu */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.2);
+            transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+        
+        .side-menu.active {
+            right: 0;
+        }
+        
+        .menu-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: var(--space-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .close-menu {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .close-menu:hover {
+            transform: rotate(90deg);
+        }
+        
+        .menu-content {
+            padding: var(--space-lg);
+        }
+        
+        .menu-section {
+            margin-bottom: var(--space-lg);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: var(--space-lg);
+        }
+        
+        .menu-section:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-section h3 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .menu-item {
+            padding: var(--space-sm);
+            margin-bottom: var(--space-xs);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.05rem;
+        }
+        
+        .menu-item:hover {
+            background: var(--bg-light);
+            transform: translateX(-5px);
+            color: var(--primary);
+        }
+        
+        .language-selector {
+            display: flex;
+            gap: var(--space-sm);
+            margin-top: var(--space-sm);
+        }
+        
+        .lang-btn {
+            padding: var(--space-xs) var(--space-md);
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1500;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--accent) 100%);
+            color: white;
+            padding: var(--space-xl) var(--space-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+        }
+        
+        .hero h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            opacity: 0.95;
+            margin-bottom: var(--space-lg);
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+        
+        /* Section */
+        section {
+            padding: var(--space-xl) var(--space-lg);
+        }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: var(--space-lg);
+            position: relative;
+            padding-bottom: var(--space-sm);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+        
+        /* Sharia Vision */
+        .sharia-vision {
+            background: white;
+            padding: var(--space-xl);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px var(--shadow);
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+            border: 3px solid var(--accent);
+        }
+        
+        .sharia-vision p {
+            font-size: 1.2rem;
+            line-height: 2;
+            color: var(--text-gray);
+            margin-bottom: var(--space-md);
+        }
+        
+        .sharia-vision .highlight {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        /* Platform Core */
+        .platform-core {
+            background: linear-gradient(135deg, var(--bg-light) 0%, white 100%);
+        }
+        
+        .core-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-lg);
+            margin: var(--space-xl) 0;
+            flex-wrap: wrap;
+        }
+        
+        .core-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--space-md);
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: all 0.4s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .core-circle:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 15px 50px rgba(26, 95, 78, 0.3);
+        }
+        
+        .core-circle .icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-sm);
+        }
+        
+        .core-circle .title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .arrow {
+            font-size: 3rem;
+            color: var(--accent);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .core-explanation {
+            text-align: center;
+            max-width: 800px;
+            margin: var(--space-lg) auto 0;
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-gray);
+        }
+        
+        /* Assets Grid */
+        .assets-section {
+            background: white;
+        }
+        
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-xl);
+            flex-wrap: wrap;
+        }
+        
+        .category-tab {
+            padding: var(--space-sm) var(--space-lg);
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        
+        .category-tab:hover, .category-tab.active {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+        
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-lg);
+        }
+        
+        .asset-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px var(--shadow);
+            transition: all 0.4s;
+            border: 2px solid transparent;
+        }
+        
+        .asset-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(26, 95, 78, 0.2);
+            border-color: var(--accent);
+        }
+        
+        .asset-card.featured {
+            border: 3px solid var(--accent);
+            position: relative;
+        }
+        
+        .asset-card.featured::before {
+            content: '⭐ مميز';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: var(--primary-dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            z-index: 10;
+        }
+        
+        .asset-image {
+            height: 220px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+        
+        .asset-content {
+            padding: var(--space-md);
+        }
+        
+        .asset-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .asset-specs {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            margin-bottom: var(--space-sm);
+            line-height: 1.6;
+        }
+        
+        .asset-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-sm);
+            padding: var(--space-sm);
+            background: var(--bg-light);
+            border-radius: 10px;
+        }
+        
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .roi {
+            background: var(--success);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .funding-bar {
+            margin: var(--space-sm) 0;
+        }
+        
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-bottom: 5px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 10px;
+            transition: width 1s ease-out;
+        }
+        
+        .asset-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+        
+        .btn {
+            padding: var(--space-sm) var(--space-md);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            font-family: var(--font-body);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Statistics */
+        .statistics {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-lg);
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: var(--space-lg);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent);
+        }
+        
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: var(--space-xs);
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent) 100%);
+            text-align: center;
+            padding: var(--space-xl) var(--space-lg);
+        }
+        
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            margin-bottom: var(--space-md);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-cta {
+            padding: var(--space-md) var(--space-xl);
+            font-size: 1.2rem;
+            border-radius: 50px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .btn-cta:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: var(--space-lg);
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-lg);
+            margin: var(--space-md) 0;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            opacity: 0.8;
+            margin-top: var(--space-md);
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .core-diagram {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+            
+            .side-menu {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .assets-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            animation: scaleIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--accent);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 2rem;
+            line-height: 1.8;
+            color: var(--text-gray);
+        }
+        
+        .modal-body h3 {
+            color: var(--primary);
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .modal-body ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .modal-body li {
+            padding: 0.5rem 0;
+            padding-right: 1.5rem;
+            position: relative;
+        }
+        
+        .modal-body li::before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .partner-card {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            border-right: 4px solid var(--accent);
+        }
+        
+        .partner-card h4 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="fade-in-up">
+        <div class="header-content">
+            <div class="logo">تمويل دي زيد</div>
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <span>☰</span>
+                <span>القائمة</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Side Menu -->
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <h2 style="font-family: var(--font-display);">القائمة</h2>
+            <button class="close-menu" onclick="toggleMenu()">×</button>
+        </div>
+        
+        <div class="menu-content">
+            <!-- About Section -->
+            <div class="menu-section">
+                <h3>التعريف بالمنصة</h3>
+                <div class="menu-item" onclick="showAboutModal('work')">طريقة العمل</div>
+                <div class="menu-item" onclick="showAboutModal('sharia')">الأسس الشرعية</div>
+                <div class="menu-item" onclick="showAboutModal('contracts')">قانونية العقود</div>
+                <div class="menu-item" onclick="showAboutModal('accounts')">إدارة الحسابات</div>
+                <div class="menu-item" onclick="showAboutModal('start')">كيفية البدء</div>
+            </div>
+            
+            <!-- Contact -->
+            <div class="menu-section">
+                <h3>قنوات التواصل</h3>
+                <div class="menu-item" onclick="window.open('https://wa.me/213770123456', '_blank')">📱 واتساب: +213770123456</div>
+                <div class="menu-item" onclick="window.location.href='mailto:tamweeldz2026@gmail.com'">📧 tamweeldz2026@gmail.com</div>
+                <div class="menu-item" onclick="window.open('https://linkedin.com', '_blank')">💼 LinkedIn</div>
+                <div class="menu-item" onclick="alert('مركز الاتصال متاح:\nالأحد - الخميس\n8:00 - 17:00\n\nهاتف: +213661234567')">📞 مركز الاتصال</div>
+            </div>
+            
+            <!-- Asset Categories -->
+            <div class="menu-section">
+                <h3>قطاعات الأصول</h3>
+                <div class="menu-item" onclick="filterAssetsFromMenu('industry')">🏭 الصناعة والمكننة</div>
+                <div class="menu-item" onclick="filterAssetsFromMenu('agriculture')">🌾 الفلاحة والصناعات الغذائية</div>
+                <div class="menu-item" onclick="filterAssetsFromMenu('transport')">🚚 النقل واللوجستيك</div>
+                <div class="menu-item" onclick="filterAssetsFromMenu('healthcare')">🏥 الصحة والعيادات الطبية</div>
+            </div>
+            
+            <!-- Partners -->
+            <div class="menu-section">
+                <h3>الشركاء القانونيون</h3>
+                <div class="menu-item" onclick="showPartnersModal('regulatory')">الهيئات التنظيمية</div>
+                <div class="menu-item" onclick="showPartnersModal('financial')">الشركاء الماليون</div>
+                <div class="menu-item" onclick="showPartnersModal('protection')">شركاء حماية الأصول</div>
+            </div>
+            
+            <!-- Language -->
+            <div class="menu-section">
+                <h3>اللغة</h3>
+                <div class="language-selector">
+                    <button class="lang-btn active">العربية</button>
+                    <button class="lang-btn">English</button>
+                    <button class="lang-btn">Français</button>
+                </div>
+            </div>
+            
+            <!-- Auth -->
+            <div class="menu-section">
+                <button class="btn btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="showLogin()">تسجيل الدخول</button>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="showRegister()">إنشاء حساب</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="fade-in-up delay-1">منصة التمويل الإسلامي الجماعي</h1>
+            <h2 class="fade-in-up delay-2">تمويل باستخدام عقد الإيجار بالتمليك حسب الشريعة الإسلامية</h2>
+        </div>
+    </section>
+
+    <!-- Sharia Vision -->
+    <section>
+        <div class="container">
+            <h2 class="section-title fade-in-up">الرؤية الشرعية</h2>
+            <div class="sharia-vision fade-in-up delay-1">
+                <p>
+                    <span class="highlight">نؤمن بأن المال أمانة والاستثمار عبادة</span>
+                </p>
+                <p>
+                    منصة تمويل دي زيد تجمع بين الابتكار التقني والالتزام الشرعي الصارم. 
+                    نحن لا نتعامل بالربا، ولا نقبل الغرر، ولا نموّل إلا ما هو حلال طيب.
+                </p>
+                <p>
+                    كل عملية استثمار تمر عبر منصتنا تخضع لرقابة شرعية صارمة من 
+                    <span class="highlight">المجلس الإسلامي الأعلى</span>، 
+                    لضمان مطابقتها التامة لأحكام الشريعة الإسلامية.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Core -->
+    <section class="platform-core">
+        <div class="container">
+            <h2 class="section-title fade-in-up">جوهر المنصة</h2>
+            
+            <div class="core-diagram">
+                <div class="core-circle fade-in-up delay-1">
+                    <div class="icon">💰</div>
+                    <div class="title">المستثمرون</div>
+                    <div style="font-size: 0.9rem; margin-top: 10px;">تمويل الأصول</div>
+                </div>
+                
+                <div class="arrow fade-in-up delay-2">←</div>
+                
+                <div class="core-circle fade-in-up delay-2" style="background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);">
+                    <div class="icon">🏢</div>
+                    <div class="title">المنصة</div>
+                    <div style="font-size: 0.9rem; margin-top: 10px;">الربط الذكي</div>
+                </div>
+                
+                <div class="arrow fade-in-up delay-3">←</div>
+                
+                <div class="core-circle fade-in-up delay-3">
+                    <div class="icon">💼</div>
+                    <div class="title">رواد الأعمال</div>
+                    <div style="font-size: 0.9rem; margin-top: 10px;">تأجير المعدات</div>
+                </div>
+            </div>
+            
+            <div class="core-explanation fade-in-up delay-4">
+                <p>
+                    <strong>للمستثمر:</strong> أنت تشتري أصولاً حقيقية عبر المنصة، ونحن نؤجرها لرواد أعمال موثوقين. 
+                    تحصل على دخل شهري ثابت من الإيجار.
+                </p>
+                <p style="margin-top: 15px;">
+                    <strong>لرائد الأعمال:</strong> أنت تحصل على المعدات التي تحتاجها دون دفع ثمنها كاملاً. 
+                    تدفع أقساطاً شهرية مريحة، وفي النهاية تصبح المعدة ملكك بالكامل.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assets Section -->
+    <section class="assets-section">
+        <div class="container">
+            <h2 class="section-title">الأصول المتاحة</h2>
+            
+            <div class="category-tabs">
+                <button class="category-tab active" onclick="filterAssets('all')">جميع القطاعات</button>
+                <button class="category-tab" onclick="filterAssets('industry')">🏭 الصناعة</button>
+                <button class="category-tab" onclick="filterAssets('agriculture')">🌾 الفلاحة</button>
+                <button class="category-tab" onclick="filterAssets('transport')">🚚 النقل</button>
+                <button class="category-tab" onclick="filterAssets('healthcare')">🏥 الصحة</button>
+            </div>
+            
+            <div class="assets-grid" id="assetsGrid">
+                <!-- Assets will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="statistics">
+        <div class="container">
+            <h2 class="section-title" style="color: var(--accent);">إحصائيات المنصة</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up delay-1">
+                    <div class="stat-number">1,247</div>
+                    <div class="stat-label">مستثمر نشط</div>
+                </div>
+                
+                <div class="stat-card fade-in-up delay-2">
+                    <div class="stat-number">523</div>
+                    <div class="stat-label">رائد أعمال</div>
+                </div>
+                
+                <div class="stat-card fade-in-up delay-3">
+                    <div class="stat-number">342</div>
+                    <div class="stat-label">أصل ممول</div>
+                </div>
+                
+                <div class="stat-card fade-in-up delay-4">
+                    <div class="stat-number">18.5%</div>
+                    <div class="stat-label">متوسط العائد السنوي</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>ابدأ رحلتك نحو الاستثمار الحلال اليوم!</h2>
+            <p style="font-size: 1.2rem; color: var(--primary-dark); margin-bottom: var(--space-lg);">
+                مستثمر؟ ضع أموالك في أصول حقيقية واحصل على عوائد شهرية مستدامة.<br>
+                رائد أعمال؟ احصل على المعدات التي تحتاجها الآن، وادفع على مهلك.
+            </p>
+            
+            <div class="cta-buttons">
+                <button class="btn btn-primary btn-cta" onclick="showRegister()">سجّل حسابك مجاناً</button>
+                <button class="btn btn-secondary btn-cta" onclick="scrollToAssets()">اكتشف الأصول المتاحة</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">تمويل دي زيد</div>
+        <div class="footer-links">
+            <a href="#" class="footer-link">شروط الاستخدام</a>
+            <a href="#" class="footer-link">سياسة الخصوصية</a>
+            <a href="#" class="footer-link" onclick="showFAQModal(); return false;">الأسئلة الشائعة</a>
+            <a href="#" class="footer-link" onclick="alert('للتواصل:\n\n📧 tamweeldz2026@gmail.com\n📱 واتساب: +213770123456\n📞 هاتف: +213661234567'); return false;">اتصل بنا</a>
+        </div>
+        <div class="copyright">
+            جميع الحقوق محفوظة © 2026 منصة تمويل دي زيد
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div class="modal" id="aboutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="aboutModalTitle">التعريف بالمنصة</h2>
+                <button class="modal-close" onclick="closeModal('aboutModal')">×</button>
+            </div>
+            <div class="modal-body" id="aboutModalBody">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="partnersModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="partnersModalTitle">الشركاء القانونيون</h2>
+                <button class="modal-close" onclick="closeModal('partnersModal')">×</button>
+            </div>
+            <div class="modal-body" id="partnersModalBody">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="faqModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>الأسئلة الشائعة</h2>
+                <button class="modal-close" onclick="closeModal('faqModal')">×</button>
+            </div>
+            <div class="modal-body" id="faqModalBody">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock Data
+        const assetsData = [
+            {
+                id: 1,
+                category: 'industry',
+                name: 'ماكينة قطع بالليزر (Fiber Laser)',
+                icon: '⚙️',
+                specs: '1500W - 3000W لقطع المعادن',
+                price: 4500000,
+                roi: '18% - 25%',
+                funded: 65,
+                featured: true
+            },
+            {
+                id: 2,
+                category: 'agriculture',
+                name: 'جرار فلاحي (90-110 حصان)',
+                icon: '🚜',
+                specs: 'دفع رباعي (4WD) مع محراث',
+                price: 6500000,
+                roi: '12% - 15%',
+                funded: 40
+            },
+            {
+                id: 3,
+                category: 'transport',
+                name: 'شاحنة تبريد (3.5 طن)',
+                icon: '🚛',
+                specs: 'محرك ديزل، تبريد حتى -20 درجة',
+                price: 4800000,
+                roi: '20% - 25%',
+                funded: 80
+            },
+            {
+                id: 4,
+                category: 'healthcare',
+                name: 'كرسي طب أسنان متكامل',
+                icon: '🦷',
+                specs: 'مزود بشاشة وكاميرا فموية رقمية',
+                price: 2500000,
+                roi: '15% - 20%',
+                funded: 55
+            },
+            {
+                id: 5,
+                category: 'industry',
+                name: 'آلة حقن البلاستيك',
+                icon: '🏭',
+                specs: 'قوة غلق 150-200 طن للعبوات',
+                price: 5500000,
+                roi: '20% - 24%',
+                funded: 30
+            },
+            {
+                id: 6,
+                category: 'agriculture',
+                name: 'نظام ري محوري (Pivot)',
+                icon: '💧',
+                specs: 'يغطي مساحة 20 - 40 هكتار',
+                price: 4000000,
+                roi: '14% - 18%',
+                funded: 45
+            }
+        ];
+
+        // Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('sideMenu');
+            const overlay = document.getElementById('overlay');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Load Assets
+        function loadAssets(filter = 'all') {
+            const grid = document.getElementById('assetsGrid');
+            const filtered = filter === 'all' ? assetsData : assetsData.filter(a => a.category === filter);
+            
+            grid.innerHTML = filtered.map(asset => `
+                <div class="asset-card ${asset.featured ? 'featured' : ''}" style="animation: fadeInUp 0.6s ease-out forwards;">
+                    <div class="asset-image">${asset.icon}</div>
+                    <div class="asset-content">
+                        <h3 class="asset-title">${asset.name}</h3>
+                        <p class="asset-specs">${asset.specs}</p>
+                        
+                        <div class="asset-price">
+                            <span class="price">${(asset.price / 1000000).toFixed(1)} مليون دج</span>
+                            <span class="roi">${asset.roi}</span>
+                        </div>
+                        
+                        <div class="funding-bar">
+                            <div class="bar-label">
+                                <span>التمويل</span>
+                                <span><strong>${asset.funded}%</strong></span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: ${asset.funded}%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="asset-actions">
+                            <button class="btn btn-primary" onclick="investAsset(${asset.id})">تمويل الآن</button>
+                            <button class="btn btn-secondary" onclick="viewDetails(${asset.id})">التفاصيل</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter Assets
+        function filterAssets(category) {
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            loadAssets(category);
+        }
+
+        // Filter Assets from Menu
+        function filterAssetsFromMenu(category) {
+            toggleMenu();
+            setTimeout(() => {
+                scrollToAssets();
+                setTimeout(() => {
+                    const tabs = document.querySelectorAll('.category-tab');
+                    tabs.forEach(tab => {
+                        tab.classList.remove('active');
+                        if (tab.textContent.includes(getCategoryName(category))) {
+                            tab.classList.add('active');
+                        }
+                    });
+                    loadAssets(category);
+                }, 500);
+            }, 300);
+        }
+
+        function getCategoryName(code) {
+            const names = {
+                'industry': '🏭',
+                'agriculture': '🌾',
+                'transport': '🚚',
+                'healthcare': '🏥'
+            };
+            return names[code] || '';
+        }
+
+        // Asset Actions
+        function investAsset(id) {
+            const isLoggedIn = false; // In real app, check auth status
+            if (!isLoggedIn) {
+                if (confirm('يجب تسجيل الدخول أولاً للاستثمار.\n\nهل تريد الانتقال لصفحة التسجيل؟')) {
+                    window.location.href = 'register.html';
+                }
+            } else {
+                alert('سننتقل لصفحة التمويل...');
+            }
+        }
+
+        function viewDetails(id) {
+            const asset = assetsData.find(a => a.id === id);
+            alert(`تفاصيل الأصل:\n\n${asset.name}\n${asset.specs}\n\nالسعر: ${(asset.price / 1000000).toFixed(1)} مليون دج\nالعائد المتوقع: ${asset.roi}\nنسبة التمويل: ${asset.funded}%\n\n💡 سجل الدخول لمعرفة المزيد من التفاصيل`);
+        }
+
+        // Navigation
+        function showLogin() {
+            window.location.href = 'login.html';
+        }
+
+        function showRegister() {
+            window.location.href = 'register.html';
+        }
+
+        function scrollToAssets() {
+            document.querySelector('.assets-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Modal Functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+
+        // About Modal
+        function showAboutModal(topic) {
+            const modal = document.getElementById('aboutModal');
+            const title = document.getElementById('aboutModalTitle');
+            const body = document.getElementById('aboutModalBody');
+            
+            const content = {
+                'work': {
+                    title: 'طريقة العمل',
+                    body: `
+                        <h3>كيف تعمل منصة تمويل دي زيد؟</h3>
+                        <p>منصتنا تربط بين المستثمرين ورواد الأعمال بطريقة شرعية وآمنة:</p>
+                        <ul>
+                            <li>المستثمرون يمولون شراء الأصول (آلات، معدات، مركبات)</li>
+                            <li>نحن نشتري الأصول ونملكها بالكامل</li>
+                            <li>نؤجر الأصول لرواد الأعمال بعقد إيجار منتهي بالتمليك</li>
+                            <li>رواد الأعمال يدفعون أقساط شهرية</li>
+                            <li>المستثمرون يحصلون على نصيبهم من الأرباح شهرياً</li>
+                            <li>في نهاية المدة، تنتقل ملكية الأصل لرائد الأعمال</li>
+                        </ul>
+                    `
+                },
+                'sharia': {
+                    title: 'الأسس الشرعية',
+                    body: `
+                        <h3>التوافق مع الشريعة الإسلامية</h3>
+                        <p>جميع عملياتنا تخضع للرقابة الشرعية الصارمة:</p>
+                        <ul>
+                            <li>نستخدم عقد الإجارة المنتهية بالتمليك المصادق عليه شرعياً</li>
+                            <li>لا نتعامل بالربا أو الفوائد المحرمة</li>
+                            <li>نتجنب الغرر والجهالة في جميع العقود</li>
+                            <li>المجلس الإسلامي الأعلى يراجع جميع العقود</li>
+                            <li>التأمين التكافلي بدلاً من التأمين التجاري</li>
+                            <li>شفافية كاملة في جميع العمليات المالية</li>
+                        </ul>
+                    `
+                },
+                'contracts': {
+                    title: 'قانونية العقود',
+                    body: `
+                        <h3>العقود والضمانات القانونية</h3>
+                        <p>جميع عقودنا ملزمة قانونياً ومحمية:</p>
+                        <ul>
+                            <li>عقود موثقة ومصادق عليها من الجهات الرسمية</li>
+                            <li>التوقيع الإلكتروني معتمد قانونياً في الجزائر</li>
+                            <li>محاضر معاينة من محضرين قضائيين معتمدين</li>
+                            <li>حماية قانونية كاملة لجميع الأطراف</li>
+                            <li>إمكانية اللجوء للقضاء في حال النزاعات</li>
+                            <li>التزام صارم بقانون حماية البيانات الشخصية</li>
+                        </ul>
+                    `
+                },
+                'accounts': {
+                    title: 'إدارة الحسابات',
+                    body: `
+                        <h3>كيف ندير الحسابات والأموال؟</h3>
+                        <p>نضمن أعلى مستويات الأمان والشفافية:</p>
+                        <ul>
+                            <li>حسابات ضمان منفصلة لكل مشروع في البنوك الإسلامية</li>
+                            <li>عدم اختلاط أموال المستثمرين بأموال المنصة</li>
+                            <li>تتبع دقيق لكل العمليات المالية</li>
+                            <li>توزيع تلقائي للأرباح بعد خصم الرسوم</li>
+                            <li>وصولات دفع لكل عملية</li>
+                            <li>لوحة تحكم شاملة لمتابعة استثماراتك</li>
+                        </ul>
+                    `
+                },
+                'start': {
+                    title: 'كيفية البدء',
+                    body: `
+                        <h3>ابدأ رحلتك في 5 خطوات بسيطة:</h3>
+                        
+                        <h3>للمستثمرين:</h3>
+                        <ul>
+                            <li>سجّل حساب مستثمر وارفع وثائقك</li>
+                            <li>وقّع على عقد الوكالة بالاستثمار</li>
+                            <li>تصفح الأصول المتاحة واختر ما يناسبك</li>
+                            <li>موّل حصتك (حتى 20% من قيمة الأصل)</li>
+                            <li>تابع أرباحك الشهرية في لوحة التحكم</li>
+                        </ul>
+                        
+                        <h3>لرواد الأعمال:</h3>
+                        <ul>
+                            <li>سجّل حساب رائد أعمال مع وثائق نشاطك</li>
+                            <li>تصفح الأصول المتاحة أو اطلب أصل خاص</li>
+                            <li>وقّع على عقد الإيجار المنتهي بالتمليك</li>
+                            <li>استلم الأصل بحضور محضر قضائي</li>
+                            <li>ادفع أقساطك الشهرية وفي النهاية الأصل ملكك!</li>
+                        </ul>
+                    `
+                }
+            };
+            
+            const selected = content[topic];
+            title.textContent = selected.title;
+            body.innerHTML = selected.body;
+            modal.classList.add('active');
+            toggleMenu();
+        }
+
+        // Partners Modal
+        function showPartnersModal(category) {
+            const modal = document.getElementById('partnersModal');
+            const title = document.getElementById('partnersModalTitle');
+            const body = document.getElementById('partnersModalBody');
+            
+            const partners = {
+                'regulatory': {
+                    title: 'الهيئات التنظيمية والرقابية',
+                    items: [
+                        {
+                            name: 'لجنة عمليات البورصة ومراقبتها (COSOB)',
+                            desc: 'هيئة رقابية مستقلة تشرف على عمليات البورصة والأسواق المالية في الجزائر. تضمن شفافية العمليات المالية وحماية المستثمرين.'
+                        },
+                        {
+                            name: 'الوزارة المنتدبة المكلفة بالاقتصاد المعرفة والمؤسسات الناشئة',
+                            desc: 'تشرف على دعم وتنظيم المؤسسات الناشئة في الجزائر. تضمن توافق عمليات المنصة مع استراتيجية الدولة لتطوير الاقتصاد الرقمي.'
+                        },
+                        {
+                            name: 'المجلس الإسلامي الأعلى (الهيئة الشرعية الوطنية)',
+                            desc: 'يضم مدققين شرعيين وخبراء في المالية الإسلامية. يصادق على عقود الإجارة لضمان خلوها من شبهة الربا وتوافقها مع الشريعة.'
+                        }
+                    ]
+                },
+                'financial': {
+                    title: 'الشركاء الماليون والتقنيون',
+                    items: [
+                        {
+                            name: 'البنوك الإسلامية (الشريك المصرفي)',
+                            desc: 'تفتح حسابات الضمان لكل مشروع على حدة، مما يضمن عدم اختلاط أموال المستثمرين بأموال تسيير المنصة.'
+                        },
+                        {
+                            name: 'شركة SATIM وبريد الجزائر',
+                            desc: 'تعالج الاستثمارات والمدفوعات عبر البطاقة الذهبية وبطاقة CIB من خلال بوابات الدفع الوطنية الآمنة.'
+                        },
+                        {
+                            name: 'شركات التكنولوجيا المالية (مثل Chargily)',
+                            desc: 'تسهل الربط التقني بين المنصة والبنوك لتأكيد عمليات الدفع الفوري بشكل آمن وموثوق.'
+                        }
+                    ]
+                },
+                'protection': {
+                    title: 'شركاء حماية الأصول',
+                    items: [
+                        {
+                            name: 'شركات التأمين التكافلي (سلامة، الجزائر للتكافل)',
+                            desc: 'تؤمن المعدات والآلات تأميناً كاملاً ضد الحريق، السرقة، والأعطال الكبرى بما يتوافق مع الشريعة الإسلامية.'
+                        },
+                        {
+                            name: 'الغرفة الوطنية للمحضرين القضائيين',
+                            desc: 'تعد محاضر معاينة استلام الأصول وتتدخل قانونياً في حالة تعثر رائد الأعمال لاسترداد الأصل وحماية حق المستثمر.'
+                        },
+                        {
+                            name: 'السلطة الوطنية لحماية المعطيات (ANIE)',
+                            desc: 'تضمن حماية بيانات المستثمرين ورواد الأعمال وتوافق المنصة مع قانون الخصوصية الجزائري.'
+                        }
+                    ]
+                }
+            };
+            
+            const selected = partners[category];
+            title.textContent = selected.title;
+            body.innerHTML = selected.items.map(p => `
+                <div class="partner-card">
+                    <h4>${p.name}</h4>
+                    <p>${p.desc}</p>
+                </div>
+            `).join('');
+            modal.classList.add('active');
+            toggleMenu();
+        }
+
+        // FAQ Modal
+        function showFAQModal() {
+            const modal = document.getElementById('faqModal');
+            const body = document.getElementById('faqModalBody');
+            
+            const faqs = [
+                {
+                    q: 'كيف أبدأ الاستثمار في المنصة؟',
+                    a: 'سجل حساب كمستثمر، املأ المعلومات الشخصية والمالية، ارفع الوثائق المطلوبة، وقع على عقد الوكالة، ثم اختر الأصل الذي ترغب في تمويله (حتى 20% من قيمته).'
+                },
+                {
+                    q: 'متى وكيف أستلم أرباحي؟',
+                    a: 'يتم توزيع الأرباح شهرياً/دورياً بعد تحصيل أقساط الإيجار. يتم خصم رسوم المنصة (0.2%) ورسوم التأمين، ثم يُحول المبلغ الصافي لمحفظتك.'
+                },
+                {
+                    q: 'هل المنصة متوافقة مع الشريعة الإسلامية؟',
+                    a: 'نعم بشكل كامل. جميع عملياتنا تخضع للمراجعة الشرعية من المجلس الإسلامي الأعلى. نستخدم عقد الإجارة المنتهية بالتمليك ولا نتعامل بالربا.'
+                },
+                {
+                    q: 'ما هي طرق الدفع المتاحة؟',
+                    a: 'يمكنك الدفع بالبطاقة الذهبية (Edahabia)، بطاقة CIB البنكية، أو الإدخال اليدوي لمعلومات الحساب. جميع العمليات آمنة ومشفرة.'
+                },
+                {
+                    q: 'ماذا يحدث إذا تأخر رائد الأعمال عن دفع القسط؟',
+                    a: 'في حال تأخر رائد الأعمال عن سداد قسطين متتاليين، نتدخل قانونياً بالتنسيق مع المحضرين القضائيين لاسترداد الأصل وحماية حقوق المستثمرين.'
+                }
+            ];
+            
+            body.innerHTML = faqs.map(faq => `
+                <div class="partner-card">
+                    <h4>${faq.q}</h4>
+                    <p>${faq.a}</p>
+                </div>
+            `).join('');
+            modal.classList.add('active');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAssets();
+        });
+    </script>
+</body>
+</html>
