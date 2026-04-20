@@ -1132,6 +1132,7 @@
                 birthDate, birthPlace,
                 wilaya, phone, address,
                 email: email,
+                password        : formData.get('password') || '',
                 accountType: accountType,...step2Data,
                 registeredAt: new Date().toISOString()
             };
