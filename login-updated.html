@@ -512,27 +512,68 @@
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const remember = document.getElementById('remember').checked;
-            
-            // Simulate login
-            console.log('Login attempt:', { email, remember });
+             if (!email || !password) {
+                showError('يرجى ملء جميع الحقول');
+                return;
+             }
+
+             // جلب بيانات المستخدم المحفوظة من صفحة التسجيل
+             const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+
+             // التحقق: هل يوجد حساب مسجل؟
+             if (!userData.email) {
+                showError('لا يوجد حساب مسجل. يرجى التسجيل أولاً');
+                return;
+             }
+
+             // التحقق من البريد الإلكتروني
+             if (userData.email !== email) {
+                showError('البريد الإلكتروني غير صحيح');
+                return;
+             }
+
+             // التحقق من كلمة المرور
+             if (userData.password !== password) {
+                showError('كلمة المرور غير صحيحة');
+                return;
+             }
             
             // Show loading state
             const btn = event.target.querySelector('button[type="submit"]');
-            const originalText = btn.textContent;
             btn.textContent = 'جاري تسجيل الدخول...';
             btn.disabled = true;
-            
-            // Simulate API call
             setTimeout(() => {
-                alert('تم تسجيل الدخول بنجاح!\n\nسننتقل لصفحة لوحة التحكم...');
-                // In real implementation: redirect to dashboard
-                // window.location.href = 'dashboard.html';
-                
-                btn.textContent = originalText;
-                btn.disabled = false;
-            }, 1500);
+            if (userData.accountType === 'investor') {
+                location.href = 'dashboard-investor.html';
+            } else {
+                location.href = 'dashboard-entrepreneur-updated.html';
+            }
+         }, 800);
+       }
+     function showError(msg) {
+        let box = document.getElementById('errorBox');
+        if (!box) {
+            box = document.createElement('div');
+            box.id = 'errorBox';
+            box.style.cssText = `
+                background: #fff0f0; color: #C53030; border: 1.5px solid #C53030;
+                border-radius: 10px; padding: 0.9rem 1.2rem; margin-bottom: 1rem;
+                font-size: 0.95rem; text-align: center;
+            `;
+            document.getElementById('loginForm').prepend(box);
+         }
+         box.textContent = msg;
+    }
+
+    // إعادة توجيه تلقائي إن كان مسجلاً دخوله مسبقاً
+    document.addEventListener('DOMContentLoaded', () => {
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        if (userData.email && userData.accountType) {
+            location.href = userData.accountType === 'investor'
+                ? 'dashboard-investor.html'
+                : 'dashboard-entrepreneur-updated.html';
         }
+    });
     </script>
     <!-- Login Script -->
     <script src="js/login.js"></script>
