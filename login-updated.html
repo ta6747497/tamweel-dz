@@ -544,9 +544,9 @@
             btn.disabled = true;
             setTimeout(() => {
             if (userData.accountType === 'investor') {
-                location.href = 'dashboard-investor.html';
+                location.href = 'dashboard-investor(1).html';
             } else {
-                location.href = 'dashboard-entrepreneur-updated.html';
+                location.href = 'dashboard-entrepreneur-updated(1).html';
             }
          }, 800);
        }
@@ -570,8 +570,8 @@
         const userData = JSON.parse(localStorage.getItem('userData') || '{}');
         if (userData.email && userData.accountType) {
             location.href = userData.accountType === 'investor'
-                ? 'dashboard-investor.html'
-                : 'dashboard-entrepreneur-updated.html';
+                ? 'dashboard-investor(1).html'
+                : 'dashboard-entrepreneur-updated(1).html';
         }
     });
     </script>
