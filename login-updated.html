@@ -499,6 +499,22 @@
     </div>
 
     <script>
+        // ✅ إعادة توجيه تلقائي إن كان المستخدم مسجل دخوله مسبقاً
+          document.addEventListener('DOMContentLoaded', () => {
+              const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    
+              // إذا كان المستخدم مسجل دخول، توجيهه مباشرة للوحة الخاصة به
+              if (userData.email && userData.accountType) {
+                    // تأخير بسيط للسماح بتحميل الصفحة
+                    setTimeout(() => {
+                          if (userData.accountType === 'investor') {
+                               window.location.href = 'dashboard-investor.html';
+                          } else if (userData.accountType === 'entrepreneur') {
+                                window.location.href = 'dashboard-entrepreneur-updated.html';
+                          }
+                     }, 500);
+              }
+         });
         function togglePassword() {
             const passwordInput = document.getElementById('password');
             const type = passwordInput.type === 'password' ? 'text' : 'password';
