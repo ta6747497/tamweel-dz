@@ -570,20 +570,10 @@
             box.textContent = msg;
         }
 
-         // ✅ إعادة توجيه تلقائي إن كان مسجل دخول
-         document.addEventListener('DOMContentLoaded', () => {
-            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    
-            if (userData.email && userData.accountType) {
-                 setTimeout(() => {
-                    if (userData.accountType === 'investor') {
-                        window.location.href = 'dashboard-investor (1).html';
-                    } else if (userData.accountType === 'entrepreneur') {
-                        window.location.href = 'dashboard-entrepreneur-updated (1).html';
-                    }
-                }, 500);
-            }
-        });
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+        }
     
     </script>
     
