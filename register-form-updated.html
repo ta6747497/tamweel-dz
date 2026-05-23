@@ -1149,23 +1149,64 @@
             showMsg('تم التسجيل بنجاح!', 'success');
             
             setTimeout(() => {
-                // Complete all steps
-                document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
-                
-                // Hide current and show success
-                document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
-                currentStep = 5;
-                document.querySelector(`.form-step[data-step="5"]`).classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                setTimeout(() => {
-                    if (accountType === 'investor') {
-                        window.location.href = 'dashboard-investor (1).html';
-                    } else {
-                        window.location.href = 'dashboard-entrepreneur-updated (1).html';
-                    }
-                }, 2500);
-            }, 2000);
-        });
+            // Complete all steps
+            document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('completed');
+
+            // Hide current and show success
+            document.querySelector(`.form-step[data-step="${currentStep}"]`).classList.remove('active');
+            currentStep = 5;
+            document.querySelector(`.form-step[data-step="5"]`).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+            setTimeout(() => {
+                // ✅ حفظ البيانات في localStorage
+                const allUsers = JSON.parse(localStorage.getItem('allUsers') || '{}');
+        
+                const userData = {
+                    fullName        : `${firstNameAr} ${lastNameAr}`.trim(),
+                    fullNameAr      : `${firstNameAr} ${lastNameAr}`.trim(),
+                    fullNameEn      : `${firstNameEn} ${lastNameEn}`.trim(),
+                    firstNameAr, 
+                    lastNameAr,
+                    firstNameEn, 
+                    lastNameEn,
+                    gender, 
+                    nationalId,
+                    birthDate, 
+                    birthPlace,
+                    wilaya, 
+                    phone, 
+                    address,
+                    email,
+                    password,
+                    accountType,
+                    registeredAt: new Date().toISOString()
+                };
+
+                // ✅ أضف البيانات الإضافية حسب نوع الحساب
+                if (accountType === 'investor') {
+                    userData.monthlyIncome = document.getElementById('monthlyIncome')?.value || '';
+                    userData.investmentCapacity = document.getElementById('investmentCapacity')?.value || '';
+                } else {
+                    userData.businessName = document.getElementById('businessName')?.value || '';
+                    userData.bankAccount = document.getElementById('bankAccount')?.value || '';
+                }
+
+                // ✅ احفظ في قائمة جميع الحسابات
+                allUsers[email] = userData;
+                localStorage.setItem('allUsers', JSON.stringify(allUsers));
+
+                // ✅ احفظ الحساب الحالي
+                localStorage.setItem('userData', JSON.stringify(userData));
+
+                 // ✅ انتقل للصفحة الصحيحة
+                 if (accountType === 'investor') {
+                    window.location.href = 'dashboard-investor.html';
+                } else {
+                    window.location.href = 'dashboard-entrepreneur-updated.html';
+                }
+             }, 2500);
+        }, 2000);
         function goToDashboard() {
             if (accountType === 'investor') {
                 window.location.href = 'dashboard-investor (1).html';
