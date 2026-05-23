@@ -654,14 +654,7 @@
                 return;
             }
             
-            // Check if logged in
-            const isLoggedIn = false; // In real app, check auth
             
-            if (!isLoggedIn) {
-                if (confirm('يجب تسجيل الدخول أولاً للاستثمار.\n\nهل تريد الانتقال لصفحة التسجيل؟')) {
-                    window.location.href = 'register.html';
-                }
-            } else {
                 // Go to payment page
                 localStorage.setItem('investmentData', JSON.stringify({
                     assetName: 'ماكينة قطع بالليزر',
@@ -670,7 +663,7 @@
                 }));
                 window.location.href = 'payment-updated.html';
             }
-        }
+       
     </script>
 </body>
 </html>
