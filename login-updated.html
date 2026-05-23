@@ -515,91 +515,76 @@
             if (!email || !password) {
                 showError('يرجى ملء جميع الحقول');
                 return;
+             }
+
+            // ✅ قراءة البيانات المحفوظة من localStorage
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+
+            // ✅ التحقق 1: هل يوجد حساب مسجل أصلاً؟
+            if (!userData.email) {
+                showError('لا يوجد حساب مسجل. يرجى التسجيل أولاً');
+                return;
+             }
+
+            // ✅ التحقق 2: هل الايميل المدخل صحيح؟
+            if (userData.email !== email) {
+                showError('البريد الإلكتروني غير صحيح');
+                return;
             }
-        // ✅ إعادة توجيه تلقائي إن كان المستخدم مسجل دخوله مسبقاً
-          document.addEventListener('DOMContentLoaded', () => {
-              const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    
-              // إذا كان المستخدم مسجل دخول، توجيهه مباشرة للوحة الخاصة به
-              if (userData.email && userData.accountType) {
-                    // تأخير بسيط للسماح بتحميل الصفحة
-                    setTimeout(() => {
-                          if (userData.accountType === 'investor') {
-                               window.location.href = 'dashboard-investor (1).html';
-                          } else if (userData.accountType === 'entrepreneur') {
-                                window.location.href = 'dashboard-entrepreneur-updated (1).html';
-                          }
-                     }, 500);
-              }
-         });
-            // ✅ وضع تجريبي - قبول أي بريد وكلمة مرور
-            // عدّل البيانات الوهمية كما تريد
-    
-            const demoUsers = {
-                'investor': {
-                     email: email,
-                     password: password,
-                     accountType: 'investor',
-                     fullName: 'أحمد محمد علي',
-                     phone: '0552123456',
-                     wilaya: 'الجزائر',
-                     monthlyIncome: '150000',
-                     investmentCapacity: '5000000',
-                     registeredAt: new Date().toISOString()
-                  },
-                 'entrepreneur': {
-                     email: email,
-                     password: password,
-                     accountType: 'entrepreneur',
-                     fullName: 'فاطمة أحمد سلام',
-                     phone: '0661234567',
-                     wilaya: 'وهران',
-                     businessName: 'متجر إلكتروني',
-                     bankAccount: '1234567890',
-                     registeredAt: new Date().toISOString()
-                }
-            };
 
-             // تحديد نوع الحساب من URL أو اختر افتراضي
-             const urlParams = new URLSearchParams(window.location.search);
-             const accountType = urlParams.get('type') || 'investor';
-    
-             const userData = demoUsers[accountType];
-            
-            // Show loading state
+            // ✅ التحقق 3: هل كلمة المرور صحيحة؟
+            if (userData.password !== password) {
+                showError('كلمة المرور غير صحيحة');
+                return;
+            }
+
+            // ✅ تسجيل دخول ناجح
             const btn = event.target.querySelector('button[type="submit"]');
-            btn.textContent = 'جاري تسجيل الدخول...';
+            btn.textContent = 'جاري الدخول...';
             btn.disabled = true;
-            setTimeout(() => {
-                location.href = accountType === 'investor'
-                    ? 'dashboard-investor (1).html'
-                    : 'dashboard-entrepreneur-updated (1).html';
-            }, 800);
-      }
-     function showError(msg) {
-        let box = document.getElementById('errorBox');
-        if (!box) {
-            box = document.createElement('div');
-            box.id = 'errorBox';
-            box.style.cssText = `
-                background: #fff0f0; color: #C53030; border: 1.5px solid #C53030;
-                border-radius: 10px; padding: 0.9rem 1.2rem; margin-bottom: 1rem;
-                font-size: 0.95rem; text-align: center;
-            `;
-            document.getElementById('loginForm').prepend(box);
-         }
-         box.textContent = msg;
-    }
 
-    // إعادة توجيه تلقائي إن كان مسجلاً دخوله مسبقاً
-    document.addEventListener('DOMContentLoaded', () => {
-        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-        if (userData.email && userData.accountType) {
-            location.href = userData.accountType === 'investor'
-                ? 'dashboard-investor (1).html'
-                : 'dashboard-entrepreneur-updated (1).html';
+            setTimeout(() => {
+                // ✅ توجيه حسب نوع الحساب المحفوظ
+                if (userData.accountType === 'investor') {
+                    window.location.href = 'dashboard-investor.html';
+                } else if (userData.accountType === 'entrepreneur') {
+                    window.location.href = 'dashboard-entrepreneur-updated.html';
+                } else {
+                    showError('نوع الحساب غير صحيح');
+                }
+            }, 800);
         }
-    });
+
+        function showError(msg) {
+             let box = document.getElementById('errorBox');
+             if (!box) {
+                box = document.createElement('div');
+                box.id = 'errorBox';
+                box.style.cssText = `
+                    background: #fff0f0; color: #C53030; border: 1.5px solid #C53030;
+                    border-radius: 10px; padding: 0.9rem 1.2rem; margin-bottom: 1rem;
+                    font-size: 0.95rem; text-align: center;
+                `;
+                document.getElementById('loginForm').prepend(box);
+            }
+            box.textContent = msg;
+        }
+
+         // ✅ إعادة توجيه تلقائي إن كان مسجل دخول
+         document.addEventListener('DOMContentLoaded', () => {
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    
+            if (userData.email && userData.accountType) {
+                 setTimeout(() => {
+                    if (userData.accountType === 'investor') {
+                        window.location.href = 'dashboard-investor (1).html';
+                    } else if (userData.accountType === 'entrepreneur') {
+                        window.location.href = 'dashboard-entrepreneur-updated (1).html';
+                    }
+                }, 500);
+            }
+        });
+    
     </script>
     
 </body>
