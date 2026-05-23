@@ -1146,7 +1146,26 @@
             // ✅ حفظ الحساب الحالي أيضاً (للتوافقية)
             localStorage.setItem('userData', JSON.stringify(userData));
 
-            showMsg('تم التسجيل بنجاح!', 'success');
+            function showMsg(message, type) {
+            const msgBox = document.createElement('div');
+            msgBox.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                padding: 1rem 1.5rem;
+                background: ${type === 'success' ? '#d4edda' : '#f8d7da'};
+                color: ${type === 'success' ? '#155724' : '#721c24'};
+                border: 1px solid ${type === 'success' ? '#c3e6cb' : '#f5c6cb'};
+                border-radius: 8px;
+                z-index: 10000;
+                font-weight: 500;
+                font-family: Arial, sans-serif;
+             `;
+            msgBox.textContent = message;
+            document.body.appendChild(msgBox);
+    
+            setTimeout(() => msgBox.remove(), 3000);
+        }
             
             setTimeout(() => {
             // Complete all steps
@@ -1201,9 +1220,9 @@
 
                  // ✅ انتقل للصفحة الصحيحة
                  if (accountType === 'investor') {
-                    window.location.href = 'dashboard-investor.html';
+                    window.location.href = 'dashboard-investor (1).html';
                 } else {
-                    window.location.href = 'dashboard-entrepreneur-updated.html';
+                    window.location.href = 'dashboard-entrepreneur-updated (1).html';
                 }
              }, 2500);
         }, 2000);
