@@ -517,8 +517,9 @@
                 return;
              }
 
-            // ✅ قراءة البيانات المحفوظة من localStorage
-            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            // ✅ البحث عن الحساب في قائمة جميع الحسابات
+            const allUsers = JSON.parse(localStorage.getItem('allUsers') || '{}');
+            const userData = allUsers[email];
 
             // ✅ التحقق 1: هل يوجد حساب مسجل أصلاً؟
             if (!userData.email) {
