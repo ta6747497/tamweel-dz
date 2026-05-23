@@ -1136,12 +1136,17 @@
                 accountType: accountType,...step2Data,
                 registeredAt: new Date().toISOString()
             };
+            const allUsers = JSON.parse(localStorage.getItem('allUsers') || '{}');
+
+            // حفظ الحساب الجديد تحت مفتاح الايميل
+             allUsers[email] = userData;
+
+            localStorage.setItem('allUsers', JSON.stringify(allUsers));
+
+            // ✅ حفظ الحساب الحالي أيضاً (للتوافقية)
             localStorage.setItem('userData', JSON.stringify(userData));
-            
-            // Simulate API call
-            const submitBtn = document.getElementById('btnSubmit');
-            submitBtn.textContent = 'جاري إنشاء الحساب...';
-            submitBtn.disabled = true;
+
+            showMsg('تم التسجيل بنجاح!', 'success');
             
             setTimeout(() => {
                 // Complete all steps
