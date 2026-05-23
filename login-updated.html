@@ -538,6 +538,7 @@
                 showError('كلمة المرور غير صحيحة');
                 return;
             }
+            localStorage.setItem('userData', JSON.stringify(userData));
 
             // ✅ تسجيل دخول ناجح
             const btn = event.target.querySelector('button[type="submit"]');
