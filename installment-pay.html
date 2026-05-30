@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دفع القسط | تمويل دي زيد</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- ★ Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- ★ إعدادات المشروع -->
+    <script src="js/supabase-config.js"></script>
+
+    <style>
+        :root{
+            --primary:#1A5F4E;--primary-light:#2D8B6F;--primary-dark:#0D3B2C;
+            --accent:#D4AF37;--accent-light:#F0D97A;
+            --bg-light:#FAF9F6;--bg-white:#FFFFFF;
+            --text-dark:#1A1A1A;--text-gray:#666666;--border:#E5E5E5;
+            --shadow:rgba(26,95,78,.1);--success:#2D8B6F;
+            --error:#C53030;--warning:#D4AF37;
+            --font-display:'Amiri',serif;--font-body:'Tajawal',sans-serif;
+        }
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:var(--font-body);
+            background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 50%,var(--accent) 100%);
+            min-height:100vh;padding:2rem;}
+        .container{max-width:1000px;margin:0 auto;}
+
+        /* رابط رجوع */
+        .back-link{display:inline-flex;align-items:center;gap:.5rem;color:#fff;
+            text-decoration:none;padding:.8rem 1.5rem;background:rgba(255,255,255,.2);
+            backdrop-filter:blur(10px);border-radius:30px;margin-bottom:2rem;
+            transition:.3s;border:2px solid rgba(255,255,255,.3);font-weight:600;font-size:.95rem;}
+        .back-link:hover{background:rgba(255,255,255,.3);}
+
+        /* عنوان الصفحة */
+        .page-header{text-align:center;color:#fff;margin-bottom:2.5rem;}
+        .page-header h1{font-family:var(--font-display);font-size:2.6rem;margin-bottom:.5rem;}
+        .page-header p{opacity:.85;font-size:1.1rem;}
+
+        /* ─── بطاقة عامة ─── */
+        .card{background:#fff;border-radius:20px;padding:2rem;
+            box-shadow:0 20px 60px rgba(0,0,0,.15);margin-bottom:2rem;}
+        .card-title{font-family:var(--font-display);font-size:1.6rem;color:var(--primary);
+            margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem;}
+
+        /* ─── Grid معلومات ─── */
+        .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:1.5rem;}
+        .info-box{background:var(--bg-light);border-radius:12px;padding:1rem 1.2rem;
+            border-right:4px solid var(--primary);}
+        .info-box .lbl{font-size:.82rem;color:var(--text-gray);margin-bottom:.3rem;}
+        .info-box .val{font-size:1.15rem;font-weight:700;color:var(--primary-dark);}
+        .info-box .val.big{font-size:1.55rem;color:var(--primary);}
+        .info-box .val.warn{color:#B7791F;}
+        .info-box .val.green{color:var(--success);}
+
+        /* شريط تقدم */
+        .prog-section{margin-bottom:1.5rem;}
+        .prog-meta{display:flex;justify-content:space-between;font-size:.88rem;color:var(--text-gray);margin-bottom:.4rem;}
+        .prog-bar{background:#eee;border-radius:10px;height:10px;overflow:hidden;}
+        .prog-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:10px;transition:width .5s;}
+
+        /* جدول الأقساط */
+        details summary{cursor:pointer;font-weight:700;color:var(--primary);padding:.5rem 0;user-select:none;}
+        .inst-table{width:100%;border-collapse:collapse;margin-top:.8rem;}
+        .inst-table th{background:var(--primary);color:#fff;padding:.7rem 1rem;text-align:right;font-size:.88rem;}
+        .inst-table td{padding:.75rem 1rem;border-bottom:1px solid var(--border);font-size:.92rem;}
+        .inst-table tr:hover td{background:var(--bg-light);}
+        .inst-table tr.highlighted td{background:#FFF9E6;font-weight:700;}
+        .badge{display:inline-block;padding:.25rem .8rem;border-radius:20px;font-size:.78rem;font-weight:600;}
+        .paid{background:#C6F6D5;color:#276749;}
+        .due{background:#FEF3C7;color:#92400E;}
+        .overdue{background:#FED7D7;color:#C53030;}
+        .pending{background:#E2E8F0;color:#4A5568;}
+        .btn-pay-row{background:var(--primary);color:#fff;border:none;
+            padding:.45rem 1.1rem;border-radius:8px;cursor:pointer;
+            font-family:var(--font-body);font-size:.88rem;font-weight:600;transition:.2s;}
+        .btn-pay-row:hover{background:var(--primary-dark);}
+
+        /* ─── طرق الدفع ─── */
+        .method{border:2px solid var(--border);border-radius:14px;margin-bottom:1rem;
+            overflow:hidden;transition:.3s;cursor:pointer;}
+        .method.active{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,95,78,.12);}
+        .method-head{display:flex;align-items:center;gap:1rem;padding:1.2rem 1.5rem;}
+        .method-head input[type=radio]{width:18px;height:18px;accent-color:var(--primary);cursor:pointer;}
+        .method-icon{font-size:2rem;}
+        .method-info h3{font-size:1rem;font-weight:700;color:var(--text-dark);}
+        .method-info p{font-size:.83rem;color:var(--text-gray);}
+        .method-body{display:none;padding:1.4rem;border-top:1px solid var(--border);background:var(--bg-light);}
+        .method.active .method-body{display:block;}
+        .form-group{margin-bottom:1.2rem;}
+        .form-label{display:block;font-weight:600;margin-bottom:.4rem;color:var(--text-dark);font-size:.93rem;}
+        .form-input{width:100%;padding:.9rem 1.1rem;border:2px solid var(--border);border-radius:10px;
+            font-family:var(--font-body);font-size:1rem;background:#fff;transition:.3s;}
+        .form-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,95,78,.1);}
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+
+        /* ─── رفع الوصل ─── */
+        .upload-zone{border:2px dashed var(--primary);border-radius:12px;padding:2rem;
+            text-align:center;cursor:pointer;transition:.3s;background:rgba(26,95,78,.03);}
+        .upload-zone:hover{background:rgba(26,95,78,.07);}
+        .upload-zone .uz-icon{font-size:2.5rem;margin-bottom:.5rem;}
+        .upload-zone p{color:var(--text-gray);font-size:.92rem;}
+        .upload-zone input{display:none;}
+        .preview-row{display:none;align-items:center;gap:.8rem;
+            background:var(--bg-light);border-radius:10px;padding:.9rem;margin-top:.8rem;}
+        .preview-row.show{display:flex;}
+        .preview-row .fname{flex:1;font-size:.9rem;font-weight:600;color:var(--text-dark);}
+        .preview-row .rm{background:none;border:none;color:var(--error);cursor:pointer;font-size:1.2rem;}
+
+        /* بيانات التحويل */
+        .bank-info{background:rgba(26,95,78,.06);border:1px solid rgba(26,95,78,.2);
+            border-radius:12px;padding:1.2rem;margin-bottom:1rem;font-size:.92rem;line-height:1.8;}
+        .bank-info strong{color:var(--primary);}
+        .ref-code{font-family:monospace;font-weight:700;background:#fff;
+            padding:.2rem .6rem;border-radius:6px;border:1px dashed var(--primary);}
+
+        /* ─── ملخص ─── */
+        .summary{background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+            color:#fff;border-radius:14px;padding:1.5rem;margin-top:1.5rem;}
+        .sum-row{display:flex;justify-content:space-between;margin-bottom:.8rem;font-size:1rem;}
+        .sum-row.total{border-top:1px solid rgba(255,255,255,.3);padding-top:.8rem;
+            margin-top:.8rem;font-size:1.25rem;font-weight:700;}
+        .sum-row .lbl-s{opacity:.8;}
+
+        /* زر التأكيد */
+        .btn-confirm{width:100%;margin-top:1.5rem;padding:1.2rem;
+            background:linear-gradient(135deg,var(--accent),var(--accent-light));
+            color:var(--primary-dark);border:none;border-radius:14px;
+            font-family:var(--font-display);font-size:1.3rem;font-weight:700;
+            cursor:pointer;transition:.3s;box-shadow:0 6px 20px rgba(212,175,55,.4);}
+        .btn-confirm:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 10px 30px rgba(212,175,55,.5);}
+        .btn-confirm:disabled{opacity:.55;cursor:not-allowed;transform:none;}
+
+        .sec-note{display:flex;gap:.7rem;background:#f0fdf4;border:1px solid #bbf7d0;
+            border-radius:10px;padding:1rem;margin-top:1rem;font-size:.86rem;color:#276749;align-items:flex-start;}
+
+        /* ─── Modal نجاح ─── */
+        .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
+            backdrop-filter:blur(4px);z-index:3000;place-items:center;}
+        .modal.open{display:grid;}
+        .modal-box{background:#fff;border-radius:24px;padding:3rem;text-align:center;
+            max-width:460px;width:90%;box-shadow:0 30px 80px rgba(0,0,0,.3);animation:pop .4s ease;}
+        @keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+        .modal-box .m-icon{font-size:4rem;margin-bottom:1rem;}
+        .modal-box h2{font-family:var(--font-display);font-size:1.8rem;color:var(--primary);margin-bottom:.7rem;}
+        .modal-box p{color:var(--text-gray);margin-bottom:1.5rem;line-height:1.7;}
+        .trx-tag{background:var(--bg-light);border-radius:10px;padding:.7rem 1.5rem;
+            font-family:monospace;font-size:.95rem;color:var(--primary-dark);font-weight:700;
+            display:inline-block;margin-bottom:2rem;}
+        .btn-home{background:var(--primary);color:#fff;border:none;padding:1rem 2.5rem;
+            border-radius:30px;font-family:var(--font-body);font-size:1.1rem;font-weight:700;
+            cursor:pointer;transition:.3s;}
+        .btn-home:hover{background:var(--primary-dark);}
+
+        /* skeleton */
+        .skel{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
+            background-size:200% 100%;animation:shim 1.2s infinite;border-radius:8px;display:inline-block;}
+        @keyframes shim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+        @media(max-width:640px){
+            body{padding:1rem;}
+            .two-col{grid-template-columns:1fr;}
+            .info-grid{grid-template-columns:1fr 1fr;}
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="dashboard-entrepreneur.html" class="back-link">← العودة للوحة التحكم</a>
+
+    <div class="page-header">
+        <h1>💳 دفع القسط الشهري</h1>
+        <p>سداد قسط الإيجار التمويلي</p>
+    </div>
+
+    <!-- ①  بطاقة معلومات القسط -->
+    <div class="card">
+        <div class="card-title">📋 تفاصيل القسط المستحق</div>
+
+        <div class="info-grid">
+            <div class="info-box">
+                <div class="lbl">اسم الأصل</div>
+                <div class="val" id="iAssetName"><span class="skel" style="width:120px;height:1.2rem"></span></div>
+            </div>
+            <div class="info-box">
+                <div class="lbl">رقم القسط</div>
+                <div class="val" id="iNumber"><span class="skel" style="width:60px;height:1.2rem"></span></div>
+            </div>
+            <div class="info-box">
+                <div class="lbl">تاريخ الاستحقاق</div>
+                <div class="val warn" id="iDueDate"><span class="skel" style="width:100px;height:1.2rem"></span></div>
+            </div>
+            <div class="info-box">
+                <div class="lbl">مبلغ القسط</div>
+                <div class="val big" id="iAmt"><span class="skel" style="width:90px;height:1.4rem"></span></div>
+            </div>
+            <div class="info-box">
+                <div class="lbl">غرامة التأخير</div>
+                <div class="val" id="iFee">0 دج</div>
+            </div>
+            <div class="info-box">
+                <div class="lbl">الإجمالي المستحق</div>
+                <div class="val big green" id="iTotal"><span class="skel" style="width:90px;height:1.4rem"></span></div>
+            </div>
+        </div>
+
+        <!-- شريط تقدم الأقساط -->
+        <div class="prog-section" id="progSection" style="display:none">
+            <div class="prog-meta">
+                <span id="progPaid">0 مدفوع</span>
+                <span id="progTotal">من 0 قسط</span>
+            </div>
+            <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+        </div>
+
+        <!-- جدول كل الأقساط -->
+        <details>
+            <summary>عرض جميع أقساط هذا الأصل</summary>
+            <div style="overflow-x:auto;margin-top:.8rem">
+                <table class="inst-table">
+                    <thead>
+                        <tr><th>#</th><th>تاريخ الاستحقاق</th><th>المبلغ</th><th>الحالة</th><th>إجراء</th></tr>
+                    </thead>
+                    <tbody id="allInstBody">
+                        <tr><td colspan="5" style="text-align:center;color:var(--text-gray)">جاري التحميل…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </details>
+    </div>
+
+    <!-- ②  طرق الدفع -->
+    <div class="card" id="payCard">
+        <div class="card-title">💳 اختر طريقة الدفع</div>
+
+        <!-- CIB -->
+        <div class="method" onclick="pickMethod(this,'cib')">
+            <div class="method-head">
+                <input type="radio" name="pm">
+                <div class="method-icon">💳</div>
+                <div class="method-info"><h3>بطاقة CIB</h3><p>الدفع الآمن عبر البطاقة البنكية</p></div>
+            </div>
+            <div class="method-body">
+                <div class="form-group">
+                    <label class="form-label">رقم البطاقة</label>
+                    <input class="form-input" id="cibNum" placeholder="1234 5678 9012 3456"
+                           oninput="this.value=this.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim()" maxlength="19">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">اسم حامل البطاقة</label>
+                    <input class="form-input" id="cibName" placeholder="AHMED BEN MOHAMED">
+                </div>
+                <div class="two-col">
+                    <div class="form-group">
+                        <label class="form-label">تاريخ الانتهاء</label>
+                        <input class="form-input" id="cibExp" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">CVV</label>
+                        <input class="form-input" id="cibCvv" placeholder="•••" maxlength="3" type="password">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edahabia -->
+        <div class="method" onclick="pickMethod(this,'edahabia')">
+            <div class="method-head">
+                <input type="radio" name="pm">
+                <div class="method-icon">💰</div>
+                <div class="method-info"><h3>البطاقة الذهبية (Edahabia)</h3><p>بريد الجزائر — CCP</p></div>
+            </div>
+            <div class="method-body">
+                <div class="form-group">
+                    <label class="form-label">رقم البطاقة</label>
+                    <input class="form-input" id="edaNum" placeholder="0079 9999 0012 3456">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">رمز PIN</label>
+                    <input class="form-input" id="edaPin" placeholder="••••" maxlength="4" type="password">
+                </div>
+            </div>
+        </div>
+
+        <!-- تحويل بنكي -->
+        <div class="method" onclick="pickMethod(this,'transfer')">
+            <div class="method-head">
+                <input type="radio" name="pm">
+                <div class="method-icon">🏦</div>
+                <div class="method-info"><h3>تحويل بنكي + رفع الوصل</h3><p>يُراجع خلال 24-48 ساعة</p></div>
+            </div>
+            <div class="method-body">
+                <div class="bank-info">
+                    <strong>بيانات حساب المنصة للتحويل:</strong><br>
+                    الاسم: منصة تمويل دي زيد<br>
+                    RIB: 007 999 1234567890 12<br>
+                    البنك: بنك الجزائر الخارجي (BEA)<br>
+                    المرجع: <span class="ref-code" id="refDisplay">—</span>
+                    <br><small style="color:var(--error)">⚠️ يجب ذكر رقم المرجع في خانة الملاحظات</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">رفع وصل الدفع (PDF أو صورة) *</label>
+                    <div class="upload-zone" onclick="document.getElementById('rcptFile').click()">
+                        <div class="uz-icon">📎</div>
+                        <p>انقر لاختيار الملف<br><small>PDF · JPG · PNG — حتى 3 MB</small></p>
+                        <input type="file" id="rcptFile" accept=".pdf,.jpg,.jpeg,.png" onchange="prevFile(this)">
+                    </div>
+                    <div class="preview-row" id="prevRow">
+                        <span>📄</span>
+                        <span class="fname" id="fName">—</span>
+                        <button class="rm" onclick="rmFile()">✕</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ملخص -->
+        <div class="summary">
+            <div class="sum-row"><span class="lbl-s">رقم القسط</span><span id="sumNum">—</span></div>
+            <div class="sum-row"><span class="lbl-s">مبلغ القسط</span><span id="sumAmt">—</span></div>
+            <div class="sum-row"><span class="lbl-s">غرامة التأخير</span><span id="sumFee">0 دج</span></div>
+            <div class="sum-row total"><span class="lbl-s">الإجمالي</span><span id="sumTotal">—</span></div>
+        </div>
+
+        <div class="sec-note">
+            <span>🔒</span>
+            <span>جميع المعاملات مشفّرة بالكامل — لا نحتفظ ببيانات بطاقتك البنكية — تتم المعالجة عبر بوابات الدفع الوطنية المعتمدة</span>
+        </div>
+
+        <button class="btn-confirm" id="confirmBtn" onclick="processPay()" disabled>
+            تأكيد الدفع 💳
+        </button>
+    </div>
+</div>
+
+<!-- Modal نجاح -->
+<div class="modal" id="successModal">
+    <div class="modal-box">
+        <div class="m-icon">✅</div>
+        <h2>تمت العملية بنجاح!</h2>
+        <p id="successMsg">تم تسجيل دفع القسط بنجاح.<br>ستتلقى إشعاراً بعد تأكيد العملية.</p>
+        <div class="trx-tag" id="trxTag">—</div><br>
+        <button class="btn-home" onclick="location.href='dashboard-entrepreneur.html'">
+            العودة للوحة التحكم →
+        </button>
+    </div>
+</div>
+
+<script>
+// ==========================================================
+//  متغيرات
+// ==========================================================
+let _inst   = null;     // بيانات القسط
+let _user   = null;
+let _method = null;
+let _file   = null;
+
+// ==========================================================
+// ① تحميل البيانات
+// ==========================================================
+async function init(){
+    const ok = await Auth.guard();
+    if (!ok) return;
+
+    _user = await Auth.user();
+
+    const params = new URLSearchParams(location.search);
+    const instId = params.get('installment_id');
+
+    if (!instId){
+        toast('لم يتم تحديد القسط!','error');
+        setTimeout(() => location.href='dashboard-entrepreneur.html', 2000);
+        return;
+    }
+
+    try {
+        // جلب القسط مع العقد والأصل
+        const { data, error } = await db
+            .from('installments')
+            .select(`
+                id, installment_number, due_date, amount, status,
+                paid_amount, late_fee, payment_reference,
+                contract:contracts(
+                    id, entrepreneur_id,
+                    entrepreneurs!inner(user_id),
+                    investments(
+                        assets(id, name, category, duration_months)
+                    )
+                )
+            `)
+            .eq('id', instId)
+            .single();
+
+        if (error) throw error;
+
+        // تحقق ملكية
+        if (data.contract?.entrepreneurs?.user_id !== _user.id){
+            toast('غير مصرح لك بالوصول لهذا القسط','error');
+            setTimeout(() => location.href='dashboard-entrepreneur.html', 2500);
+            return;
+        }
+
+        _inst = data;
+        renderInfo();
+        await loadAllInst(data.contract.id);
+
+    } catch(e){
+        console.error(e);
+        toast('خطأ في تحميل البيانات: ' + e.message,'error');
+    }
+}
+
+// ==========================================================
+// ② عرض المعلومات
+// ==========================================================
+function renderInfo(){
+    const i       = _inst;
+    const asset   = i.contract?.investments?.assets;
+    const fee     = +(i.late_fee)  || 0;
+    const total   = +i.amount + fee;
+    const refCode = 'INST-' + i.id.slice(0,8).toUpperCase();
+
+    document.getElementById('iAssetName').textContent = asset?.name  || '—';
+    document.getElementById('iNumber')  .textContent  = '#' + i.installment_number;
+    document.getElementById('iDueDate') .textContent  = fmt.date(i.due_date);
+    document.getElementById('iAmt')     .textContent  = fmt.money(i.amount);
+    document.getElementById('iFee')     .textContent  = fmt.money(fee);
+    document.getElementById('iTotal')   .textContent  = fmt.money(total);
+    document.getElementById('refDisplay').textContent  = refCode;
+
+    // ملخص
+    document.getElementById('sumNum')  .textContent = '#' + i.installment_number;
+    document.getElementById('sumAmt')  .textContent = fmt.money(i.amount);
+    document.getElementById('sumFee')  .textContent = fmt.money(fee);
+    document.getElementById('sumTotal').textContent = fmt.money(total);
+}
+
+// ==========================================================
+// ③ جدول كل الأقساط
+// ==========================================================
+async function loadAllInst(contractId){
+    const { data: list } = await db
+        .from('installments')
+        .select('id,installment_number,due_date,amount,status,late_fee')
+        .eq('contract_id', contractId)
+        .order('installment_number');
+
+    if (!list) return;
+
+    const paid  = list.filter(i => i.status === 'paid').length;
+    const total = list.length;
+
+    document.getElementById('progSection').style.display = 'block';
+    document.getElementById('progPaid') .textContent = paid  + ' مدفوع';
+    document.getElementById('progTotal').textContent = 'من ' + total + ' قسط';
+    document.getElementById('progFill') .style.width = (paid/total*100) + '%';
+
+    const lblMap = {paid:'مدفوع ✓', due:'مستحق ⏰', overdue:'متأخر ⚠️', pending:'قادم ○'};
+
+    document.getElementById('allInstBody').innerHTML = list.map(i => {
+        const isThis = i.id === _inst.id;
+        const fee    = +(i.late_fee) || 0;
+        return `
+        <tr class="${isThis ? 'highlighted' : ''}">
+            <td>${i.installment_number}</td>
+            <td>${fmt.date(i.due_date)}</td>
+            <td>${fmt.money(+i.amount + fee)}</td>
+            <td><span class="badge ${i.status}">${lblMap[i.status]||i.status}</span></td>
+            <td>${
+                (i.status==='due'||i.status==='overdue')
+                    ? `<button class="btn-pay-row"
+                              onclick="location.href='installment-pay.html?installment_id=${i.id}'">
+                              دفع</button>`
+                    : (i.status==='paid' ? '—' : '<span style="color:#aaa">غير مستحق</span>')
+            }</td>
+        </tr>`;
+    }).join('');
+}
+
+// ==========================================================
+// ④ اختيار الطريقة
+// ==========================================================
+function pickMethod(el, method){
+    document.querySelectorAll('.method').forEach(m => {
+        m.classList.remove('active');
+        m.querySelector('input[type=radio]').checked = false;
+    });
+    el.classList.add('active');
+    el.querySelector('input[type=radio]').checked = true;
+    _method = method;
+    document.getElementById('confirmBtn').disabled = false;
+}
+
+// ==========================================================
+// ⑤ ملف الوصل
+// ==========================================================
+function prevFile(inp){
+    const f = inp.files[0];
+    if (!f) return;
+    if (f.size > 3*1024*1024){ toast('الملف يتجاوز 3MB','error'); inp.value=''; return; }
+    _file = f;
+    document.getElementById('fName').textContent = f.name;
+    document.getElementById('prevRow').classList.add('show');
+}
+function rmFile(){
+    _file = null;
+    document.getElementById('rcptFile').value = '';
+    document.getElementById('prevRow').classList.remove('show');
+}
+
+// ==========================================================
+// ⑥ معالجة الدفع
+// ==========================================================
+async function processPay(){
+    if (!_method){ toast('اختر طريقة الدفع أولاً','warning'); return; }
+    if (_method === 'transfer' && !_file){ toast('يرجى رفع وصل التحويل البنكي','warning'); return; }
+
+    const btn = document.getElementById('confirmBtn');
+    spin(btn, true, 'جاري معالجة الدفع…');
+
+    try {
+        const fee     = +((_inst.late_fee)||0);
+        const total   = +_inst.amount + fee;
+        const trxRef  = 'INST-' + _inst.id.slice(0,8).toUpperCase() + '-' + Date.now();
+        let   rcptPath = null;
+
+        // رفع الوصل
+        if (_file){
+            const ext  = _file.name.split('.').pop();
+            const path = `${_user.id}/${trxRef}.${ext}`;
+            rcptPath = await Store.upload('receipts', path, _file);
+        }
+
+        // تسجيل المعاملة
+        const methodMap = { cib:'CIB', edahabia:'EDAHABIA', transfer:'BANK_TRANSFER' };
+        const isPending = _method === 'transfer';
+
+        const { data: trx, error: tErr } = await db
+            .from('transactions')
+            .insert({
+                user_id              : _user.id,
+                transaction_type     : 'installment',
+                amount               : total,
+                installment_id       : _inst.id,
+                contract_id          : _inst.contract.id,
+                payment_method       : methodMap[_method],
+                status               : isPending ? 'processing' : 'completed',
+                transaction_reference: trxRef,
+                metadata             : rcptPath ? { receipt_path: rcptPath } : {}
+            })
+            .select().single();
+
+        if (tErr) throw tErr;
+
+        // تحديث القسط إذا دفع فوري
+        if (!isPending){
+            const { error: iErr } = await db
+                .from('installments')
+                .update({
+                    status           : 'paid',
+                    paid_amount      : _inst.amount,
+                    payment_date     : new Date().toISOString(),
+                    payment_reference: trxRef
+                })
+                .eq('id', _inst.id);
+            if (iErr) console.warn('تحديث القسط:', iErr.message);
+        }
+
+        // إشعار
+        await db.from('notifications').insert({
+            user_id           : _user.id,
+            title             : isPending ? '⏳ تم رفع وصل الدفع' : '✅ تم دفع القسط بنجاح',
+            message           : `القسط #${_inst.installment_number} — ${fmt.money(total)}`,
+            notification_type : 'installment_due',
+            priority          : 'normal'
+        });
+
+        // نافذة النجاح
+        document.getElementById('trxTag').textContent = trxRef;
+        if (isPending){
+            document.getElementById('successMsg').textContent =
+                'تم رفع وصل الدفع بنجاح. سيتم مراجعته خلال 24-48 ساعة وستتلقى إشعاراً بالتأكيد.';
+        }
+        document.getElementById('successModal').classList.add('open');
+
+    } catch(e){
+        console.error(e);
+        toast('حدث خطأ: ' + e.message, 'error');
+        spin(btn, false);
+    }
+}
+
+// ==========================================================
+// بدء
+// ==========================================================
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
