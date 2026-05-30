@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دفع الأقساط | تمويل دي زيد</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1A5F4E;
+            --primary-light: #2D8B6F;
+            --primary-dark: #0D3B2C;
+            --accent: #D4AF37;
+            --accent-light: #F0D97A;
+            --secondary: #8B4513;
+            --bg-light: #FAF9F6;
+            --bg-white: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-gray: #666666;
+            --border: #E5E5E5;
+            --shadow: rgba(26, 95, 78, 0.1);
+            --success: #2D8B6F;
+            --error: #C53030;
+            --warning: #D4AF37;
+            --font-display: 'Amiri', serif;
+            --font-body: 'Tajawal', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 1.2rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+        .user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .btn-back-nav {
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+        .btn-back-nav:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateX(3px);
+        }
+
+        /* ===== Container ===== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ===== Page Header ===== */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.5s ease-out;
+        }
+        .page-header-icon {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 6px 20px var(--shadow);
+            flex-shrink: 0;
+        }
+        .page-header h1 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            color: var(--primary);
+        }
+        .page-header p {
+            color: var(--text-gray);
+            font-size: 1rem;
+            margin-top: 0.2rem;
+        }
+
+        /* ===== Breadcrumb ===== */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            animation: fadeIn 0.6s ease-out;
+        }
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .breadcrumb a:hover { color: var(--primary-light); }
+        .breadcrumb .sep { color: var(--border); }
+
+        /* ===== Alert ===== */
+        .alert {
+            padding: 1.2rem 1.8rem;
+            border-radius: 14px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+        .alert-warning {
+            background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.06));
+            border: 1px solid rgba(212,175,55,0.35);
+            color: #7a5c00;
+        }
+        .alert-error {
+            background: linear-gradient(135deg, rgba(197,48,48,0.1), rgba(197,48,48,0.05));
+            border: 1px solid rgba(197,48,48,0.3);
+            color: var(--error);
+        }
+        .alert-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+        /* ===== Asset Selector ===== */
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .assets-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        .asset-select-card {
+            background: white;
+            border: 2.5px solid var(--border);
+            border-radius: 18px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .asset-select-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s;
+        }
+        .asset-select-card:hover,
+        .asset-select-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px rgba(26,95,78,0.15);
+            transform: translateY(-3px);
+        }
+        .asset-select-card.selected::before { transform: scaleX(1); }
+        .asset-select-card.selected { background: linear-gradient(135deg, rgba(26,95,78,0.03), white); }
+
+        .asset-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .asset-card-icon {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .asset-card-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--primary-dark);
+        }
+        .asset-card-category {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+        .selected-check {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            width: 26px; height: 26px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85rem;
+        }
+        .asset-select-card.selected .selected-check { display: flex; }
+
+        .asset-mini-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+        }
+        .mini-stat {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 0.7rem;
+            text-align: center;
+        }
+        .mini-stat-value {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--primary);
+        }
+        .mini-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            margin-top: 0.1rem;
+        }
+
+        .due-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(212,175,55,0.15);
+            color: #7a5c00;
+            border: 1px solid rgba(212,175,55,0.4);
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        .overdue-badge {
+            background: rgba(197,48,48,0.1);
+            color: var(--error);
+            border-color: rgba(197,48,48,0.3);
+        }
+
+        /* ===== Installments Table ===== */
+        .installments-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px var(--shadow);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.7s ease-out;
+        }
+
+        .installments-filter {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 25px;
+            border: 2px solid var(--border);
+            background: transparent;
+            color: var(--text-gray);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .installments-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 0.5rem;
+        }
+        .installments-table th {
+            text-align: right;
+            padding: 0.7rem 1.2rem;
+            color: var(--text-gray);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--border);
+        }
+        .installments-table td {
+            padding: 1rem 1.2rem;
+            font-size: 0.95rem;
+            background: white;
+            border-top: 1px solid var(--bg-light);
+            transition: background 0.2s;
+        }
+        .installments-table tr:hover td { background: rgba(26,95,78,0.03); }
+        .installments-table tr td:first-child { border-radius: 12px 0 0 12px; }
+        .installments-table tr td:last-child { border-radius: 0 12px 12px 0; }
+
+        .inst-number {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .inst-number.paid { background: rgba(45,139,111,0.1); color: var(--success); }
+        .inst-number.due { background: rgba(212,175,55,0.15); color: #7a5c00; }
+        .inst-number.overdue { background: rgba(197,48,48,0.1); color: var(--error); }
+        .inst-number.pending { background: var(--bg-light); color: var(--text-gray); }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+        .status-paid { background: rgba(45,139,111,0.1); color: var(--success); }
+        .status-due { background: rgba(212,175,55,0.15); color: #7a5c00; }
+        .status-overdue { background: rgba(197,48,48,0.1); color: var(--error); }
+        .status-pending { background: var(--bg-light); color: var(--text-gray); }
+
+        .pay-btn-inline {
+            padding: 0.45rem 1.2rem;
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        .pay-btn-inline:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+        .pay-btn-inline.overdue {
+            border-color: var(--error);
+            color: var(--error);
+        }
+        .pay-btn-inline.overdue:hover {
+            background: var(--error);
+            color: white;
+        }
+
+        /* ===== Progress Bar ===== */
+        .progress-section {
+            background: white;
+            border-radius: 20px;
+            padding: 1.8rem 2rem;
+            box-shadow: 0 4px 20px var(--shadow);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.65s ease-out;
+        }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .progress-title {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        .progress-percent {
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        .progress-bar-wrap {
+            background: var(--bg-light);
+            border-radius: 50px;
+            height: 14px;
+            overflow: hidden;
+            margin-bottom: 0.8rem;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--accent));
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .progress-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.2rem;
+        }
+        .prog-stat {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 12px;
+        }
+        .prog-stat-value {
+            font-weight: 900;
+            font-size: 1.3rem;
+        }
+        .prog-stat-label { font-size: 0.8rem; color: var(--text-gray); margin-top: 0.2rem; }
+        .color-success { color: var(--success); }
+        .color-warning { color: var(--warning); }
+        .color-error { color: var(--error); }
+        .color-primary { color: var(--primary); }
+
+        /* ===== Payment Modal ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            animation: fadeIn 0.25s ease-out;
+        }
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+            animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 2rem;
+            border-radius: 24px 24px 0 0;
+            position: relative;
+        }
+        .modal-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+        .modal-header p { opacity: 0.85; font-size: 0.95rem; }
+        .modal-close {
+            position: absolute;
+            top: 1.2rem;
+            left: 1.5rem;
+            width: 36px; height: 36px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .modal-close:hover { background: rgba(255,255,255,0.35); }
+
+        .modal-body { padding: 2rem; }
+
+        /* Summary Box */
+        .payment-summary {
+            background: linear-gradient(135deg, rgba(26,95,78,0.06), rgba(26,95,78,0.02));
+            border: 1.5px solid rgba(26,95,78,0.15);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.8rem;
+        }
+        .summary-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed rgba(26,95,78,0.1);
+            font-size: 0.95rem;
+        }
+        .summary-row:last-child { border-bottom: none; }
+        .summary-label { color: var(--text-gray); }
+        .summary-value { font-weight: 700; color: var(--text-dark); }
+        .summary-total .summary-value {
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+
+        /* Payment Methods */
+        .methods-label {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 1.8rem;
+        }
+        .method-option {
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 1rem 1.3rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .method-option:hover { border-color: var(--primary); }
+        .method-option.selected {
+            border-color: var(--primary);
+            background: rgba(26,95,78,0.04);
+        }
+        .method-radio {
+            width: 20px; height: 20px;
+            border: 2.5px solid var(--border);
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .method-option.selected .method-radio {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+        .method-option.selected .method-radio::after {
+            content: '';
+            width: 8px; height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+        .method-icon { font-size: 1.6rem; }
+        .method-info { flex: 1; }
+        .method-name { font-weight: 700; font-size: 0.95rem; }
+        .method-desc { font-size: 0.82rem; color: var(--text-gray); }
+
+        /* Form Fields */
+        .form-group { margin-bottom: 1.2rem; }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            background: var(--bg-light);
+            transition: all 0.25s;
+            outline: none;
+            direction: ltr;
+            text-align: right;
+        }
+        .form-input:focus {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(26,95,78,0.08);
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+        /* Security Note */
+        .security-note {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 0.82rem;
+            color: var(--text-gray);
+            background: var(--bg-light);
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Confirm Button */
+        .btn-confirm {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(26,95,78,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(26,95,78,0.4);
+        }
+        .btn-confirm:active { transform: translateY(0); }
+        .btn-confirm:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ===== Success Modal ===== */
+        .success-modal {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        .success-icon {
+            width: 90px; height: 90px;
+            background: linear-gradient(135deg, var(--success), var(--primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(45,139,111,0.3);
+            animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .success-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .success-subtitle { color: var(--text-gray); margin-bottom: 2rem; }
+        .receipt-box {
+            background: var(--bg-light);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: right;
+            margin-bottom: 2rem;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px dashed var(--border);
+        }
+        .receipt-row:last-child { border-bottom: none; }
+        .receipt-label { color: var(--text-gray); }
+        .receipt-value { font-weight: 700; }
+        .btn-done {
+            width: 100%;
+            padding: 1.1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(26,95,78,0.3);
+            margin-bottom: 0.8rem;
+        }
+        .btn-done:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(26,95,78,0.4);
+        }
+        .btn-download {
+            width: 100%;
+            padding: 0.9rem;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-download:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ===== Loading Spinner ===== */
+        .spinner {
+            width: 22px; height: 22px;
+            border: 3px solid rgba(255,255,255,0.35);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== Animations ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== Empty State ===== */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-gray);
+        }
+        .empty-state-icon { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5; }
+        .empty-state-text { font-size: 1.1rem; }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .progress-stats { grid-template-columns: repeat(2, 1fr); }
+            .form-row { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 1.7rem; }
+            .installments-table { font-size: 0.88rem; }
+            .installments-table th, .installments-table td { padding: 0.7rem 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Navbar ===== -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="index.html" class="logo">تمويل دي زيد</a>
+            <div class="nav-right">
+                <div class="user-info">
+                    <div class="user-avatar">👩</div>
+                    <span class="user-name" id="navUserName">فاطمة بن علي</span>
+                </div>
+                <a href="dashboard-entrepreneur-updated.html" class="btn-back-nav">
+                    <span>→</span>
+                    <span>لوحة التحكم</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="index.html">الرئيسية</a>
+            <span class="sep">›</span>
+            <a href="dashboard-entrepreneur-updated.html">لوحة التحكم</a>
+            <span class="sep">›</span>
+            <span>دفع الأقساط</span>
+        </div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-icon">💳</div>
+            <div>
+                <h1>دفع الأقساط الشهرية</h1>
+                <p>اختر الأصل وادفع قسطك بأمان وسهولة</p>
+            </div>
+        </div>
+
+        <!-- Alert -->
+        <div class="alert alert-warning" id="mainAlert">
+            <span class="alert-icon">⏰</span>
+            <div>
+                <strong>تذكير:</strong> لديك <span id="alertDueCount">0</span> قسط مستحق الدفع — تجنب الغرامات بالدفع في الموعد
+            </div>
+        </div>
+
+        <!-- ===== اختيار الأصل ===== -->
+        <h2 class="section-title">🏭 اختر الأصل</h2>
+        <div class="assets-selector" id="assetsSelector"></div>
+
+        <!-- ===== شريط التقدم ===== -->
+        <div class="progress-section" id="progressSection" style="display:none;">
+            <div class="progress-header">
+                <span class="progress-title" id="progressAssetName">—</span>
+                <span class="progress-percent" id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            <div class="progress-labels">
+                <span id="progressPaid">مدفوع: —</span>
+                <span id="progressTotal">الإجمالي: —</span>
+            </div>
+            <div class="progress-stats">
+                <div class="prog-stat">
+                    <div class="prog-stat-value color-success" id="paidCount">—</div>
+                    <div class="prog-stat-label">مدفوعة</div>
+                </div>
+                <div class="prog-stat">
+                    <div class="prog-stat-value color-warning" id="dueCount">—</div>
+                    <div class="prog-stat-label">مستحقة</div>
+                </div>
+                <div class="prog-stat">
+                    <div class="prog-stat-value color-error" id="overdueCount">—</div>
+                    <div class="prog-stat-label">متأخرة</div>
+                </div>
+                <div class="prog-stat">
+                    <div class="prog-stat-value color-primary" id="remainingCount">—</div>
+                    <div class="prog-stat-label">قادمة</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== جدول الأقساط ===== -->
+        <div class="installments-section" id="installmentsSection" style="display:none;">
+            <div class="section-title" style="margin-bottom:0.5rem;">📋 جدول الأقساط</div>
+
+            <div class="installments-filter">
+                <button class="filter-btn active" onclick="filterInstallments('all', this)">الكل</button>
+                <button class="filter-btn" onclick="filterInstallments('paid', this)">✓ المدفوعة</button>
+                <button class="filter-btn" onclick="filterInstallments('due', this)">⏰ المستحقة</button>
+                <button class="filter-btn" onclick="filterInstallments('overdue', this)">⚠️ المتأخرة</button>
+                <button class="filter-btn" onclick="filterInstallments('pending', this)">○ القادمة</button>
+            </div>
+
+            <div style="overflow-x:auto;">
+                <table class="installments-table">
+                    <thead>
+                        <tr>
+                            <th>القسط</th>
+                            <th>تاريخ الاستحقاق</th>
+                            <th>المبلغ</th>
+                            <th>الحالة</th>
+                            <th>تاريخ الدفع</th>
+                            <th>الإجراء</th>
+                        </tr>
+                    </thead>
+                    <tbody id="installmentsTableBody"></tbody>
+                </table>
+            </div>
+
+            <div id="emptyState" class="empty-state" style="display:none;">
+                <div class="empty-state-icon">📭</div>
+                <div class="empty-state-text">لا توجد أقساط في هذه الفئة</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== Modal الدفع ===== -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal" id="modalContent">
+            <!-- العنوان -->
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()">✕</button>
+                <h2>🔒 دفع القسط</h2>
+                <p>جميع المعاملات مشفرة وآمنة</p>
+            </div>
+
+            <div class="modal-body">
+                <!-- ملخص الدفع -->
+                <div class="payment-summary">
+                    <div class="summary-title">📄 ملخص القسط</div>
+                    <div class="summary-row">
+                        <span class="summary-label">الأصل</span>
+                        <span class="summary-value" id="sumAssetName">—</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">رقم القسط</span>
+                        <span class="summary-value" id="sumInstNum">—</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">تاريخ الاستحقاق</span>
+                        <span class="summary-value" id="sumDueDate">—</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">الغرامة</span>
+                        <span class="summary-value color-error" id="sumLateFee">0 دج</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span class="summary-label" style="font-weight:700; font-size:1rem;">الإجمالي المستحق</span>
+                        <span class="summary-value" id="sumTotal">—</span>
+                    </div>
+                </div>
+
+                <!-- طريقة الدفع -->
+                <div class="methods-label">اختر طريقة الدفع</div>
+                <div class="payment-methods">
+                    <div class="method-option selected" onclick="selectMethod(this, 'CIB')">
+                        <div class="method-radio"></div>
+                        <div class="method-icon">💳</div>
+                        <div class="method-info">
+                            <div class="method-name">بطاقة CIB</div>
+                            <div class="method-desc">بطاقة التوزيع الدولي</div>
+                        </div>
+                    </div>
+                    <div class="method-option" onclick="selectMethod(this, 'EDAHABIA')">
+                        <div class="method-radio"></div>
+                        <div class="method-icon">🟡</div>
+                        <div class="method-info">
+                            <div class="method-name">البطاقة الذهبية</div>
+                            <div class="method-desc">بطاقة بريد الجزائر (Edahabia)</div>
+                        </div>
+                    </div>
+                    <div class="method-option" onclick="selectMethod(this, 'BANK_TRANSFER')">
+                        <div class="method-radio"></div>
+                        <div class="method-icon">🏦</div>
+                        <div class="method-info">
+                            <div class="method-name">تحويل بنكي</div>
+                            <div class="method-desc">إدخال رقم RIB يدوياً</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- حقول CIB -->
+                <div id="fieldsCIB">
+                    <div class="form-group">
+                        <label class="form-label">رقم البطاقة</label>
+                        <input type="text" class="form-input" id="cardNumber" maxlength="19"
+                               placeholder="0000 0000 0000 0000" oninput="formatCardNumber(this)">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">تاريخ الانتهاء</label>
+                            <input type="text" class="form-input" id="cardExpiry" maxlength="5"
+                                   placeholder="MM/YY" oninput="formatExpiry(this)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">CVV</label>
+                            <input type="password" class="form-input" id="cardCVV"
+                                   maxlength="3" placeholder="•••">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">اسم حامل البطاقة</label>
+                        <input type="text" class="form-input" id="cardName" placeholder="الاسم كما يظهر على البطاقة">
+                    </div>
+                </div>
+
+                <!-- حقول Edahabia -->
+                <div id="fieldsEDAHABIA" style="display:none;">
+                    <div class="form-group">
+                        <label class="form-label">رقم البطاقة الذهبية</label>
+                        <input type="text" class="form-input" id="edaCard" maxlength="19"
+                               placeholder="0000 0000 0000 0000" oninput="formatCardNumber(this)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الرمز السري (PIN)</label>
+                        <input type="password" class="form-input" id="edaPin" maxlength="4" placeholder="••••">
+                    </div>
+                </div>
+
+                <!-- حقول تحويل بنكي -->
+                <div id="fieldsBANK_TRANSFER" style="display:none;">
+                    <div class="alert alert-warning" style="margin-bottom:1.2rem;">
+                        <span class="alert-icon">ℹ️</span>
+                        <span>سيتم التحقق من التحويل خلال 24-48 ساعة عمل</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">رقم الحساب (RIB)</label>
+                        <input type="text" class="form-input" id="ribNumber"
+                               maxlength="20" placeholder="00000 00000 00000000000 00">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">اسم صاحب الحساب</label>
+                        <input type="text" class="form-input" id="accountName" placeholder="الاسم الكامل">
+                    </div>
+                </div>
+
+                <!-- أمان -->
+                <div class="security-note">
+                    <span>🔒</span>
+                    <span>معاملاتك محمية بتشفير SSL 256-bit — لا نحتفظ ببيانات بطاقتك</span>
+                </div>
+
+                <!-- زر الدفع -->
+                <button class="btn-confirm" id="confirmPayBtn" onclick="processPayment()">
+                    <span>تأكيد دفع</span>
+                    <span id="confirmAmount">—</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modal النجاح ===== -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="success-modal">
+                <div class="success-icon">✅</div>
+                <h2 class="success-title">تمّت العملية بنجاح!</h2>
+                <p class="success-subtitle">تم تسجيل دفعتك وسيصلك وصل الدفع على بريدك الإلكتروني</p>
+
+                <div class="receipt-box">
+                    <div class="receipt-row">
+                        <span class="receipt-label">رقم العملية</span>
+                        <span class="receipt-value" id="receiptRef">—</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">الأصل</span>
+                        <span class="receipt-value" id="receiptAsset">—</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">القسط رقم</span>
+                        <span class="receipt-value" id="receiptInstNum">—</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">المبلغ المدفوع</span>
+                        <span class="receipt-value color-success" id="receiptAmount">—</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">طريقة الدفع</span>
+                        <span class="receipt-value" id="receiptMethod">—</span>
+                    </div>
+                    <div class="receipt-row">
+                        <span class="receipt-label">التاريخ والوقت</span>
+                        <span class="receipt-value" id="receiptDate">—</span>
+                    </div>
+                </div>
+
+                <button class="btn-done" onclick="backToDashboard()">
+                    العودة للوحة التحكم ←
+                </button>
+                <button class="btn-download" onclick="downloadReceipt()">
+                    ⬇️ تحميل الوصل PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== البيانات ===========
+        // تُأخذ من localStorage الذي تملؤه dashboard-entrepreneur.html
+        const assetsData = JSON.parse(localStorage.getItem('entrepreneurAssets') || 'null') || [
+            {
+                id: 1,
+                name: 'ماكينة قطع بالليزر',
+                icon: '⚙️',
+                category: 'صناعة',
+                duration: 12,
+                monthlyPayment: 95000,
+                totalAmount: 1140000,
+                paidInstallments: 8,
+                totalInstallments: 12,
+                nextPaymentDate: '2026-04-05',
+                installments: [
+                    { number: 1,  date: '2025-08-05', amount: 95000, status: 'paid',    paidDate: '2025-08-04' },
+                    { number: 2,  date: '2025-09-05', amount: 95000, status: 'paid',    paidDate: '2025-09-03' },
+                    { number: 3,  date: '2025-10-05', amount: 95000, status: 'paid',    paidDate: '2025-10-05' },
+                    { number: 4,  date: '2025-11-05', amount: 95000, status: 'paid',    paidDate: '2025-11-04' },
+                    { number: 5,  date: '2025-12-05', amount: 95000, status: 'paid',    paidDate: '2025-12-03' },
+                    { number: 6,  date: '2026-01-05', amount: 95000, status: 'paid',    paidDate: '2026-01-05' },
+                    { number: 7,  date: '2026-02-05', amount: 95000, status: 'paid',    paidDate: '2026-02-04' },
+                    { number: 8,  date: '2026-03-05', amount: 95000, status: 'paid',    paidDate: '2026-03-03' },
+                    { number: 9,  date: '2026-04-05', amount: 95000, status: 'due',     paidDate: null },
+                    { number: 10, date: '2026-05-05', amount: 95000, status: 'pending', paidDate: null },
+                    { number: 11, date: '2026-06-05', amount: 95000, status: 'pending', paidDate: null },
+                    { number: 12, date: '2026-07-05', amount: 95000, status: 'pending', paidDate: null }
+                ]
+            },
+            {
+                id: 2,
+                name: 'نظام ري محوري',
+                icon: '💧',
+                category: 'فلاحة',
+                duration: 18,
+                monthlyPayment: 45000,
+                totalAmount: 810000,
+                paidInstallments: 3,
+                totalInstallments: 18,
+                nextPaymentDate: '2026-02-10',
+                installments: [
+                    { number: 1, date: '2025-11-10', amount: 45000, status: 'paid',    paidDate: '2025-11-09' },
+                    { number: 2, date: '2025-12-10', amount: 45000, status: 'paid',    paidDate: '2025-12-10' },
+                    { number: 3, date: '2026-01-10', amount: 45000, status: 'paid',    paidDate: '2026-01-08' },
+                    { number: 4, date: '2026-02-10', amount: 45000, status: 'overdue', paidDate: null },
+                    { number: 5, date: '2026-03-10', amount: 45000, status: 'due',     paidDate: null },
+                    ...Array.from({length: 13}, (_, i) => ({
+                        number: i + 6,
+                        date: `2026-${String(i + 4).padStart(2,'0')}-10`,
+                        amount: 45000,
+                        status: 'pending',
+                        paidDate: null
+                    }))
+                ]
+            }
+        ];
+
+        // ========== State ===========
+        let selectedAsset = null;
+        let selectedInstallment = null;
+        let selectedMethod = 'CIB';
+        let currentFilter = 'all';
+
+        // ========== التهيئة ===========
+        function init() {
+            // اسم المستخدم من localStorage
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            if (userData.fullName) {
+                document.getElementById('navUserName').textContent = userData.fullName;
+            }
+
+            // حساب عدد الأقساط المستحقة
+            let totalDue = 0;
+            assetsData.forEach(a => {
+                totalDue += a.installments.filter(i => i.status === 'due' || i.status === 'overdue').length;
+            });
+            document.getElementById('alertDueCount').textContent = totalDue;
+            if (totalDue === 0) document.getElementById('mainAlert').style.display = 'none';
+
+            renderAssets();
+
+            // تحديد الأصل من URL إذا وُجد
+            const urlParams = new URLSearchParams(window.location.search);
+            const assetId = urlParams.get('assetId');
+            const instNum  = urlParams.get('installment');
+
+            if (assetId) {
+                const asset = assetsData.find(a => a.id == assetId);
+                if (asset) {
+                    selectAsset(asset.id);
+                    if (instNum) {
+                        const inst = asset.installments.find(i => i.number == instNum);
+                        if (inst) setTimeout(() => openPayModal(inst), 400);
+                    }
+                }
+            }
+        }
+
+        // ========== عرض الأصول ===========
+        function renderAssets() {
+            const html = assetsData.map(asset => {
+                const dueInst = asset.installments.filter(i => i.status === 'due' || i.status === 'overdue');
+                const hasOverdue = dueInst.some(i => i.status === 'overdue');
+                const hasDue = dueInst.some(i => i.status === 'due');
+                const paidPct = Math.round(asset.paidInstallments / asset.totalInstallments * 100);
+
+                return `
+                <div class="asset-select-card${selectedAsset?.id === asset.id ? ' selected' : ''}"
+                     onclick="selectAsset(${asset.id})" id="assetCard${asset.id}">
+                    <div class="selected-check">✓</div>
+                    <div class="asset-card-header">
+                        <div class="asset-card-icon">${asset.icon}</div>
+                        <div>
+                            <div class="asset-card-name">${asset.name}</div>
+                            <div class="asset-card-category">${asset.category} • ${asset.duration} شهر</div>
+                        </div>
+                    </div>
+                    <div class="asset-mini-stats">
+                        <div class="mini-stat">
+                            <div class="mini-stat-value">${(asset.monthlyPayment/1000).toFixed(0)}K</div>
+                            <div class="mini-stat-label">القسط/دج</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-value">${asset.paidInstallments}/${asset.totalInstallments}</div>
+                            <div class="mini-stat-label">مدفوع</div>
+                        </div>
+                        <div class="mini-stat">
+                            <div class="mini-stat-value">${paidPct}%</div>
+                            <div class="mini-stat-label">التقدم</div>
+                        </div>
+                    </div>
+                    ${hasOverdue ? `<div class="due-badge overdue-badge">⚠️ قسط متأخر</div>`
+                      : hasDue   ? `<div class="due-badge">⏰ قسط مستحق</div>`
+                      : `<div class="due-badge" style="background:rgba(45,139,111,0.08);color:var(--success);border-color:rgba(45,139,111,0.25);">✓ لا توجد أقساط مستحقة</div>`}
+                </div>`;
+            }).join('');
+
+            document.getElementById('assetsSelector').innerHTML = html;
+        }
+
+        // ========== اختيار أصل ===========
+        function selectAsset(id) {
+            selectedAsset = assetsData.find(a => a.id === id);
+            document.querySelectorAll('.asset-select-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById(`assetCard${id}`)?.classList.add('selected');
+            renderProgress();
+            renderInstallments(currentFilter);
+            document.getElementById('progressSection').style.display = 'block';
+            document.getElementById('installmentsSection').style.display = 'block';
+            document.getElementById('progressSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // ========== شريط التقدم ===========
+        function renderProgress() {
+            if (!selectedAsset) return;
+            const a = selectedAsset;
+            const paid    = a.installments.filter(i => i.status === 'paid').length;
+            const due     = a.installments.filter(i => i.status === 'due').length;
+            const overdue = a.installments.filter(i => i.status === 'overdue').length;
+            const pending = a.installments.filter(i => i.status === 'pending').length;
+            const pct     = Math.round(paid / a.totalInstallments * 100);
+            const paidAmt = paid * a.monthlyPayment;
+
+            document.getElementById('progressAssetName').textContent  = a.name;
+            document.getElementById('progressPercent').textContent    = pct + '%';
+            document.getElementById('progressBar').style.width        = pct + '%';
+            document.getElementById('progressPaid').textContent       = `مدفوع: ${paidAmt.toLocaleString()} دج`;
+            document.getElementById('progressTotal').textContent      = `الإجمالي: ${a.totalAmount.toLocaleString()} دج`;
+            document.getElementById('paidCount').textContent          = paid;
+            document.getElementById('dueCount').textContent           = due;
+            document.getElementById('overdueCount').textContent       = overdue;
+            document.getElementById('remainingCount').textContent     = pending;
+        }
+
+        // ========== جدول الأقساط ===========
+        function filterInstallments(filter, btn) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderInstallments(filter);
+        }
+
+        function renderInstallments(filter) {
+            if (!selectedAsset) return;
+            const insts = filter === 'all'
+                ? selectedAsset.installments
+                : selectedAsset.installments.filter(i => i.status === filter);
+
+            const tbody = document.getElementById('installmentsTableBody');
+            const empty = document.getElementById('emptyState');
+
+            if (!insts.length) {
+                tbody.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+
+            const statusMap = {
+                paid:    { label: '✓ مدفوع',    cls: 'status-paid' },
+                due:     { label: '⏰ مستحق',   cls: 'status-due' },
+                overdue: { label: '⚠️ متأخر',  cls: 'status-overdue' },
+                pending: { label: '○ قادم',     cls: 'status-pending' }
+            };
+
+            tbody.innerHTML = insts.map(inst => {
+                const s = statusMap[inst.status];
+                const canPay = inst.status === 'due' || inst.status === 'overdue';
+                const late = inst.status === 'overdue'
+                    ? Math.max(0, Math.floor((Date.now() - new Date(inst.date)) / 86400000))
+                    : 0;
+
+                return `
+                <tr>
+                    <td>
+                        <span class="inst-number ${inst.status}">${inst.number}</span>
+                    </td>
+                    <td>
+                        ${inst.date}
+                        ${late > 0 ? `<br><small style="color:var(--error); font-size:0.8rem;">${late} يوم تأخير</small>` : ''}
+                    </td>
+                    <td>
+                        <strong>${inst.amount.toLocaleString()} دج</strong>
+                        ${late > 0 ? `<br><small style="color:var(--error);">+ ${Math.round(inst.amount * 0.001 * late).toLocaleString()} دج غرامة</small>` : ''}
+                    </td>
+                    <td><span class="status-badge ${s.cls}">${s.label}</span></td>
+                    <td style="color:var(--text-gray); font-size:0.9rem;">
+                        ${inst.paidDate || '—'}
+                    </td>
+                    <td>
+                        ${canPay
+                            ? `<button class="pay-btn-inline ${inst.status === 'overdue' ? 'overdue' : ''}"
+                                 onclick="openPayModal(${JSON.stringify(inst).replace(/"/g, '&quot;')})">
+                                 💳 ادفع
+                               </button>`
+                            : `<span style="color:var(--text-gray); font-size:0.85rem;">—</span>`
+                        }
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        // ========== فتح Modal الدفع ===========
+        function openPayModal(inst) {
+            if (!selectedAsset) return;
+            selectedInstallment = inst;
+
+            const late = inst.status === 'overdue'
+                ? Math.max(0, Math.floor((Date.now() - new Date(inst.date)) / 86400000))
+                : 0;
+            const lateFee = Math.round(inst.amount * 0.001 * late);
+            const total   = inst.amount + lateFee;
+
+            document.getElementById('sumAssetName').textContent  = selectedAsset.name;
+            document.getElementById('sumInstNum').textContent    = `القسط رقم ${inst.number}`;
+            document.getElementById('sumDueDate').textContent    = inst.date;
+            document.getElementById('sumLateFee').textContent    = lateFee > 0 ? `${lateFee.toLocaleString()} دج` : '0 دج';
+            document.getElementById('sumTotal').textContent      = `${total.toLocaleString()} دج`;
+            document.getElementById('confirmAmount').textContent = `${total.toLocaleString()} دج`;
+
+            document.getElementById('paymentModal').classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('paymentModal').classList.remove('open');
+        }
+
+        // ========== اختيار طريقة الدفع ===========
+        function selectMethod(el, method) {
+            selectedMethod = method;
+            document.querySelectorAll('.method-option').forEach(m => m.classList.remove('selected'));
+            el.classList.add('selected');
+            ['CIB', 'EDAHABIA', 'BANK_TRANSFER'].forEach(m => {
+                document.getElementById('fields' + m).style.display = m === method ? 'block' : 'none';
+            });
+        }
+
+        // ========== تنسيق رقم البطاقة ===========
+        function formatCardNumber(input) {
+            let v = input.value.replace(/\D/g, '').substring(0, 16);
+            input.value = v.replace(/(.{4})/g, '$1 ').trim();
+        }
+        function formatExpiry(input) {
+            let v = input.value.replace(/\D/g, '').substring(0, 4);
+            if (v.length >= 3) v = v.substring(0,2) + '/' + v.substring(2);
+            input.value = v;
+        }
+
+        // ========== التحقق من الحقول ===========
+        function validateFields() {
+            if (selectedMethod === 'CIB') {
+                const num  = document.getElementById('cardNumber').value.replace(/\s/g,'');
+                const exp  = document.getElementById('cardExpiry').value;
+                const cvv  = document.getElementById('cardCVV').value;
+                const name = document.getElementById('cardName').value.trim();
+                if (num.length < 16 || !exp.includes('/') || cvv.length < 3 || !name) {
+                    alert('يرجى تعبئة جميع بيانات البطاقة بشكل صحيح');
+                    return false;
+                }
+            } else if (selectedMethod === 'EDAHABIA') {
+                const num = document.getElementById('edaCard').value.replace(/\s/g,'');
+                const pin = document.getElementById('edaPin').value;
+                if (num.length < 16 || pin.length < 4) {
+                    alert('يرجى تعبئة بيانات البطاقة الذهبية بشكل صحيح');
+                    return false;
+                }
+            } else {
+                const rib  = document.getElementById('ribNumber').value.trim();
+                const name = document.getElementById('accountName').value.trim();
+                if (!rib || !name) {
+                    alert('يرجى تعبئة بيانات التحويل البنكي');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // ========== معالجة الدفع ===========
+        function processPayment() {
+            if (!validateFields()) return;
+
+            const btn = document.getElementById('confirmPayBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<div class="spinner"></div><span>جاري المعالجة...</span>';
+
+            setTimeout(() => {
+                completePayment();
+            }, 2000);
+        }
+
+        function completePayment() {
+            // تحديث حالة القسط في البيانات
+            if (selectedAsset && selectedInstallment) {
+                const inst = selectedAsset.installments.find(i => i.number === selectedInstallment.number);
+                if (inst) {
+                    inst.status = 'paid';
+                    inst.paidDate = new Date().toISOString().split('T')[0];
+                    selectedAsset.paidInstallments++;
+                }
+                // تحديث localStorage
+                localStorage.setItem('entrepreneurAssets', JSON.stringify(assetsData));
+            }
+
+            const late = selectedInstallment.status === 'overdue'
+                ? Math.max(0, Math.floor((Date.now() - new Date(selectedInstallment.date)) / 86400000))
+                : 0;
+            const lateFee = Math.round(selectedInstallment.amount * 0.001 * late);
+            const total   = selectedInstallment.amount + lateFee;
+            const ref     = 'INST-' + Date.now();
+            const methodNames = { CIB: 'بطاقة CIB', EDAHABIA: 'البطاقة الذهبية', BANK_TRANSFER: 'تحويل بنكي' };
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ar-DZ') + ' ' + now.toLocaleTimeString('ar-DZ');
+
+            // ملء وصل الدفع
+            document.getElementById('receiptRef').textContent     = ref;
+            document.getElementById('receiptAsset').textContent   = selectedAsset.name;
+            document.getElementById('receiptInstNum').textContent = `القسط رقم ${selectedInstallment.number}`;
+            document.getElementById('receiptAmount').textContent  = `${total.toLocaleString()} دج`;
+            document.getElementById('receiptMethod').textContent  = methodNames[selectedMethod];
+            document.getElementById('receiptDate').textContent    = dateStr;
+
+            // حفظ آخر وصل في localStorage
+            localStorage.setItem('lastReceipt', JSON.stringify({ ref, asset: selectedAsset.name, amount: total, method: selectedMethod, date: dateStr }));
+
+            // إغلاق modal الدفع وفتح النجاح
+            closeModal();
+            document.getElementById('successModal').classList.add('open');
+
+            // إعادة تحميل الجدول
+            renderProgress();
+            renderInstallments(currentFilter);
+            renderAssets();
+        }
+
+        // ========== العودة للوحة التحكم ===========
+        function backToDashboard() {
+            document.getElementById('successModal').classList.remove('open');
+            window.location.href = 'dashboard-entrepreneur-updated.html';
+        }
+
+        // ========== تحميل الوصل ===========
+        function downloadReceipt() {
+            const r = JSON.parse(localStorage.getItem('lastReceipt') || '{}');
+            const content = `وصل دفع قسط
+رقم العملية: ${r.ref || '—'}
+الأصل: ${r.asset || '—'}
+المبلغ: ${r.amount ? r.amount.toLocaleString() : '—'} دج
+طريقة الدفع: ${r.method || '—'}
+التاريخ: ${r.date || '—'}
+منصة تمويل دي زيد | www.tamweeldz.dz`;
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const a    = document.createElement('a');
+            a.href     = URL.createObjectURL(blob);
+            a.download = `receipt-${r.ref || 'receipt'}.txt`;
+            a.click();
+        }
+
+        // ========== إغلاق بالنقر خارج Modal ===========
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', e => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('open');
+                    // إعادة زر الدفع
+                    const btn = document.getElementById('confirmPayBtn');
+                    if (btn) {
+                        btn.disabled = false;
+                        const total = document.getElementById('sumTotal').textContent;
+                        btn.innerHTML = `<span>تأكيد دفع</span><span>${total}</span>`;
+                    }
+                }
+            });
+        });
+
+        // ========== تشغيل ===========
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
