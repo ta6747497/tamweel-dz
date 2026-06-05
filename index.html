@@ -1111,7 +1111,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="aboutModalTitle">التعريف بالمنصة</h2>
-                <button class="modal-close" onclick="closeModal('aboutModal')">×</button>
+                <button class="modal-close" onclick="closeAssetModal('aboutModal')">×</button>
             </div>
             <div class="modal-body" id="aboutModalBody">
                 <!-- Content will be loaded dynamically -->
@@ -1123,7 +1123,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="partnersModalTitle">الشركاء القانونيون</h2>
-                <button class="modal-close" onclick="closeAssetModal('partnersModal')">×</button>
+                <button class="modal-close" onclick="closeModal('partnersModal')">×</button>
             </div>
             <div class="modal-body" id="partnersModalBody">
                 <!-- Content will be loaded dynamically -->
@@ -1135,7 +1135,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>الأسئلة الشائعة</h2>
-                <button class="modal-close" onclick="closeAssetModal('faqModal')">×</button>
+                <button class="modal-close" onclick="closeModal('faqModal')">×</button>
             </div>
             <div class="modal-body" id="faqModalBody">
                 <!-- Content will be loaded dynamically -->
@@ -1364,7 +1364,7 @@
             modal.style.display = 'flex';
         }
 
-        function closeModal() {
+        function closeAssetModal() {
             document.getElementById('assetModal').style.display = 'none';
         }
 
