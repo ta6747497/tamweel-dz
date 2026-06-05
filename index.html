@@ -1146,7 +1146,7 @@
             <div id="assetModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
             <div style="background:white; border-radius:20px; padding:2.5rem; max-width:500px; width:90%; max-height:85vh; overflow-y:auto; position:relative;">
         
-                <button onclick="closeModal()" style="position:absolute; top:1rem; left:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666;">✕</button>
+                <button onclick="closeassetModal()" style="position:absolute; top:1rem; left:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666;">✕</button>
         
                 <div style="text-align:center; margin-bottom:1.5rem;">
                     <div id="modalIcon" style="font-size:4rem; margin-bottom:0.5rem;"></div>
@@ -1178,14 +1178,14 @@
                 </div>
 
                 <div style="display:flex; gap:1rem;">
-                    <button onclick="closeModal()" style="flex:1; padding:0.9rem; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:10px; font-family:inherit; font-weight:700; cursor:pointer;">
+                    <button onclick="closeassetModal()" style="flex:1; padding:0.9rem; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:10px; font-family:inherit; font-weight:700; cursor:pointer;">
                         إغلاق
                     </button>
                     <button onclick="goToInvest()" style="flex:1; padding:0.9rem; background:linear-gradient(135deg, var(--primary), var(--primary-light)); color:white; border:none; border-radius:10px; font-family:inherit; font-weight:700; cursor:pointer;">
                         تمويل الآن ←
                     </button>
                 </div>
-          </div>
+           </div>
     </div>
     <script>
         // Mock Data
@@ -1369,7 +1369,7 @@
         }
 
         function goToInvest() {
-            closeModal();
+            closeassetModal();
             window.location.href = 'asset-details.html';
         }
 
