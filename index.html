@@ -1142,7 +1142,51 @@
             </div>
         </div>
     </div>
+          <!-- Modal التفاصيل -->
+            <div id="assetModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
+            <div style="background:white; border-radius:20px; padding:2.5rem; max-width:500px; width:90%; max-height:85vh; overflow-y:auto; position:relative;">
+        
+                <button onclick="closeModal()" style="position:absolute; top:1rem; left:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666;">✕</button>
+        
+                <div style="text-align:center; margin-bottom:1.5rem;">
+                    <div id="modalIcon" style="font-size:4rem; margin-bottom:0.5rem;"></div>
+                    <span id="modalCategory" style="background:var(--bg-light); color:var(--primary); border:1px solid var(--primary); font-size:0.75rem; font-weight:700; padding:0.2rem 0.8rem; border-radius:20px;"></span>
+                </div>
 
+                <h2 id="modalName" style="font-size:1.4rem; color:var(--primary-dark); margin-bottom:0.5rem; text-align:center;"></h2>
+                <p id="modalSpecs" style="color:var(--text-gray); font-size:0.9rem; text-align:center; margin-bottom:1.5rem;"></p>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+                    <div style="background:var(--bg-light); border-radius:10px; padding:1rem; text-align:center;">
+                        <div style="font-size:0.78rem; color:var(--text-gray); margin-bottom:0.3rem;">السعر الإجمالي</div>
+                        <div id="modalPrice" style="font-weight:700; color:var(--primary); font-size:1.1rem;"></div>
+                    </div>
+                    <div style="background:var(--bg-light); border-radius:10px; padding:1rem; text-align:center;">
+                        <div style="font-size:0.78rem; color:var(--text-gray); margin-bottom:0.3rem;">العائد السنوي</div>
+                        <div id="modalROI" style="font-weight:700; color:var(--primary); font-size:1.1rem;"></div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom:1.5rem;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.82rem; color:var(--text-gray); margin-bottom:0.4rem;">
+                        <span>نسبة التمويل</span>
+                        <span id="modalFundedPct"></span>
+                    </div>
+                    <div style="background:var(--border); border-radius:10px; height:10px; overflow:hidden;">
+                        <div id="modalProgressBar" style="height:100%; border-radius:10px; background:linear-gradient(90deg, var(--primary), var(--primary-light)); transition:width 0.6s;"></div>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:1rem;">
+                    <button onclick="closeModal()" style="flex:1; padding:0.9rem; border:2px solid var(--primary); background:white; color:var(--primary); border-radius:10px; font-family:inherit; font-weight:700; cursor:pointer;">
+                        إغلاق
+                    </button>
+                    <button onclick="goToInvest()" style="flex:1; padding:0.9rem; background:linear-gradient(135deg, var(--primary), var(--primary-light)); color:white; border:none; border-radius:10px; font-family:inherit; font-weight:700; cursor:pointer;">
+                        تمويل الآن ←
+                    </button>
+                </div>
+          </div>
+    </div>
     <script>
         // Mock Data
         const assetsData = [
